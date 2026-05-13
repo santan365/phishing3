@@ -27,6 +27,8 @@ let bestStreak        = 0;    // Highest streak reached this session
 let activeCategory    = 'all';// Category filter selected on the home screen
 let reviewMode        = false; // True when user is replaying missed scenarios
 let missedThisSession = [];   // IDs of scenarios the user got wrong this session
+let scenarioStartTime = 0;    // Timestamp (ms) when the current scenario was displayed
+let responseTimes     = [];   // Response time in ms for each answer this session
 
 // ============================================================
 // LOCALSTORAGE KEYS
@@ -55,12 +57,14 @@ function saveHistory(h) {
 }
 
 // Record the result of one scenario attempt
-// Each scenario ID maps to { correct: N, attempts: N }
-function recordAttempt(id, correct) {
+// Each scenario ID maps to { correct: N, attempts: N, avgResponseMs: N }
+function recordAttempt(id, correct, responseMs) {
   const h = loadHistory();
-  if (!h[id]) h[id] = { correct: 0, attempts: 0 }; // First time seeing this scenario
+  if (!h[id]) h[id] = { correct: 0, attempts: 0, totalResponseMs: 0 };
   h[id].attempts++;
   if (correct) h[id].correct++;
+  // Track cumulative response time so we can calculate average later
+  h[id].totalResponseMs = (h[id].totalResponseMs || 0) + responseMs;
   saveHistory(h);
 }
 
@@ -327,6 +331,10 @@ function viewScenario() {
   onActivate(document.getElementById('reportBtn'),  () => choose('REPORT'));
   onActivate(document.getElementById('homeBtn'), viewHome);
   document.getElementById('proceedBtn').focus();
+
+  // Start timing — records when the scenario was first shown to the user
+  // Used in choose() to calculate how long the user took to decide
+  scenarioStartTime = Date.now();
 }
 
 // ============================================================
@@ -335,9 +343,17 @@ function viewScenario() {
 // and provides an explanation of the correct decision
 // Also shows Next Scenario / View Summary / Retry / Home buttons
 // ============================================================
-function viewFeedback(correct, s) {
+function viewFeedback(correct, s, responseMs) {
   // If all scenarios are done, show View Summary instead of Next Scenario
   const isLast = idx >= scenarios.length;
+
+  // Format response time for display
+  const seconds = (responseMs / 1000).toFixed(1);
+  const timeLabel = responseMs < 5000
+    ? `Quick — answered in ${seconds}s`
+    : responseMs < 15000
+    ? `Answered in ${seconds}s`
+    : `Took a while — ${seconds}s`;
 
   app.innerHTML = `
     <section class="card" aria-labelledby="feedback-title">
@@ -349,6 +365,9 @@ function viewFeedback(correct, s) {
         <span>${correct ? 'Good call.' : 'That was risky.'}</span>
         ${streakBadge()}
       </div>
+
+      <!-- Response time badge -->
+      <p class="response-time">${timeLabel}</p>
 
       <!-- Cues panel — bullet list of red flags from the scenario object -->
       <div class="feedback-block">
@@ -386,6 +405,7 @@ function viewFeedback(correct, s) {
     idx = Math.max(0, idx - 1);
     attempts = Math.max(0, attempts - 1);
     if (correct) { score = Math.max(0, score - 1); streak = Math.max(0, streak - 1); }
+    if (responseTimes.length) responseTimes.pop(); // Remove the timed entry for the retry
     viewScenario();
   });
 
@@ -404,11 +424,18 @@ function viewSummary() {
   const pct = attempts === 0 ? 0 : Math.round((score / attempts) * 100);
   const weak = getWeakAreas(); // Pull weak areas from the full history
 
+  // Calculate average response time across all answers this session
+  const avgMs = responseTimes.length
+    ? Math.round(responseTimes.reduce((a, b) => a + b, 0) / responseTimes.length)
+    : 0;
+  const avgSeconds = (avgMs / 1000).toFixed(1);
+
   const stats = [
-    { label: 'Final Score', value: `${score}/${attempts}` },
-    { label: 'Correct',     value: score },
-    { label: 'Accuracy',    value: `${pct}%` },
-    { label: 'Best Streak', value: bestStreak },
+    { label: 'Final Score',   value: `${score}/${attempts}` },
+    { label: 'Correct',       value: score },
+    { label: 'Accuracy',      value: `${pct}%` },
+    { label: 'Best Streak',   value: bestStreak },
+    { label: 'Avg Response',  value: `${avgSeconds}s` },
   ];
 
   app.innerHTML = `
@@ -471,7 +498,8 @@ function getMotivationalMessage(score, total) {
 function start() {
   reviewMode = false;
   missedThisSession = [];
-  scenarios = sortByDifficulty(filterScenarios(activeCategory)); // Apply filter + sort
+  responseTimes = []; // Reset response time tracking for new session
+  scenarios = sortByDifficulty(filterScenarios(activeCategory));
   idx = 0; score = 0; attempts = 0; streak = 0; bestStreak = 0;
   viewScenario();
 }
@@ -480,8 +508,9 @@ function start() {
 // missedThisSession contains the IDs of those scenarios
 function startReview() {
   reviewMode = true;
+  responseTimes = []; // Reset response time tracking for review session
   scenarios = sortByDifficulty(scenarioBank.filter(s => missedThisSession.includes(s.id)));
-  missedThisSession = []; // Reset so the new review session tracks its own misses
+  missedThisSession = [];
   idx = 0; score = 0; attempts = 0; streak = 0; bestStreak = 0;
   viewScenario();
 }
@@ -490,23 +519,28 @@ function startReview() {
 // Evaluates the answer, updates all state, records to localStorage, shows feedback
 function choose(choice) {
   const s = scenarios[idx];
-  const correct = (choice === s.correctAction); // Compare user's choice to the correct answer
+  const correct = (choice === s.correctAction);
+
+  // Calculate how long the user took to answer in milliseconds
+  // scenarioStartTime was set when viewScenario() finished rendering
+  const responseMs = Date.now() - scenarioStartTime;
+  responseTimes.push(responseMs); // Add to session response times array
 
   attempts++;
 
   if (correct) {
     score++;
     streak++;
-    if (streak > bestStreak) bestStreak = streak; // Update best streak if beaten
+    if (streak > bestStreak) bestStreak = streak;
   } else {
-    streak = 0; // Reset streak on any wrong answer
-    if (!missedThisSession.includes(s.id)) missedThisSession.push(s.id); // Track for review
+    streak = 0;
+    if (!missedThisSession.includes(s.id)) missedThisSession.push(s.id);
   }
 
-  idx++; // Advance to the next scenario
+  idx++;
 
-  recordAttempt(s.id, correct); // Save result to localStorage history
-  viewFeedback(correct, s);     // Show the feedback screen
+  recordAttempt(s.id, correct, responseMs); // Save result + response time to localStorage
+  viewFeedback(correct, s, responseMs);     // Pass response time to feedback screen
 }
 
 // ============================================================
