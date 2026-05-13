@@ -34,8 +34,9 @@ let responseTimes     = [];   // Response time in ms for each answer this sessio
 // LOCALSTORAGE KEYS
 // Two separate keys are used to keep data organised
 // ============================================================
-const HISTORY_KEY = 'phishing_history_v1'; // Per-scenario accuracy across all sessions
-const SESSION_KEY = 'phishing_last_v1';    // Most recent session score and date
+const HISTORY_KEY        = 'phishing_history_v1'; // Per-scenario accuracy across all sessions
+const SESSION_KEY        = 'phishing_last_v1';    // Most recent session score and date
+const SESSION_HISTORY_KEY = 'phishing_sessions_v1'; // Array of last 10 sessions for trend chart
 
 // ============================================================
 // LOCALSTORAGE FUNCTIONS
@@ -69,12 +70,25 @@ function recordAttempt(id, correct, responseMs) {
 }
 
 // Save the current session's final score and date
-// This is shown on the home screen as "Last session: X/Y"
+// Also appends to the session history array used by the trend chart
 function saveLastSession() {
   try {
-    localStorage.setItem(SESSION_KEY, JSON.stringify({
-      score, attempts, date: new Date().toLocaleDateString('en-GB')
-    }));
+    const session = {
+      score,
+      attempts,
+      accuracy: attempts === 0 ? 0 : Math.round((score / attempts) * 100),
+      avgResponseMs: responseTimes.length
+        ? Math.round(responseTimes.reduce((a,b) => a+b, 0) / responseTimes.length)
+        : 0,
+      date: new Date().toLocaleDateString('en-GB')
+    };
+    localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+
+    // Append to history array (keep last 10 sessions only)
+    const history = JSON.parse(localStorage.getItem(SESSION_HISTORY_KEY) || '[]');
+    history.push(session);
+    if (history.length > 10) history.shift(); // Remove oldest if over 10
+    localStorage.setItem(SESSION_HISTORY_KEY, JSON.stringify(history));
   } catch(_){}
 }
 
@@ -214,6 +228,7 @@ function viewHome() {
 
       <div class="btn-row home-btns">
         <button id="startBtn" class="btn btn-primary">Start Training</button>
+        <button id="statsBtn" class="btn">My Stats</button>
       </div>
       <p class="muted">${scenarioBank.length} scenarios &middot; Easy to Hard &middot; No data stored externally</p>
     </section>`;
@@ -226,7 +241,8 @@ function viewHome() {
 
   const sb = document.getElementById('startBtn');
   onActivate(sb, start);
-  sb.focus(); // Auto-focus so keyboard users can press Enter straight away
+  onActivate(document.getElementById('statsBtn'), viewDashboard);
+  sb.focus();
 }
 
 // ============================================================
@@ -541,6 +557,193 @@ function choose(choice) {
 
   recordAttempt(s.id, correct, responseMs); // Save result + response time to localStorage
   viewFeedback(correct, s, responseMs);     // Pass response time to feedback screen
+}
+
+// ============================================================
+// VIEW: PERFORMANCE DASHBOARD
+// Shows three Chart.js charts and two stat lists
+// Data sourced entirely from localStorage — no server needed
+// Charts: accuracy by category, session history trend, response time by difficulty
+// ============================================================
+function viewDashboard() {
+  const h         = loadHistory();
+  const sessions  = JSON.parse(localStorage.getItem(SESSION_HISTORY_KEY) || '[]');
+
+  // ── Build per-category accuracy data from scenario history ──
+  const catStats = { email: {c:0,a:0}, sms: {c:0,a:0}, vishing: {c:0,a:0} };
+  scenarioBank.forEach(s => {
+    const r = h[s.id];
+    if (!r || r.attempts === 0) return;
+    catStats[s.category].c += r.correct;
+    catStats[s.category].a += r.attempts;
+  });
+  const catLabels  = ['Email', 'SMS', 'Vishing'];
+  const catAccuracy = [
+    catStats.email.a   ? Math.round((catStats.email.c   / catStats.email.a)   * 100) : 0,
+    catStats.sms.a     ? Math.round((catStats.sms.c     / catStats.sms.a)     * 100) : 0,
+    catStats.vishing.a ? Math.round((catStats.vishing.c / catStats.vishing.a) * 100) : 0,
+  ];
+
+  // ── Build response time by difficulty ──
+  const diffStats = { 1:{total:0,count:0}, 2:{total:0,count:0}, 3:{total:0,count:0} };
+  scenarioBank.forEach(s => {
+    const r = h[s.id];
+    if (!r || !r.totalResponseMs) return;
+    diffStats[s.difficulty].total += r.totalResponseMs;
+    diffStats[s.difficulty].count += r.attempts;
+  });
+  const diffLabels = ['Easy', 'Medium', 'Hard'];
+  const diffTimes  = [1,2,3].map(d =>
+    diffStats[d].count ? +(diffStats[d].total / diffStats[d].count / 1000).toFixed(1) : 0
+  );
+
+  // ── Session history for trend line ──
+  const sessionLabels   = sessions.map((s,i) => `Session ${i+1}`);
+  const sessionAccuracy = sessions.map(s => s.accuracy);
+
+  // ── Most missed scenarios ──
+  const missed = scenarioBank
+    .filter(s => h[s.id] && h[s.id].attempts > 0)
+    .map(s => ({ ...s, acc: Math.round((h[s.id].correct / h[s.id].attempts) * 100) }))
+    .sort((a,b) => a.acc - b.acc)
+    .slice(0, 5);
+
+  // ── No data state ──
+  const hasData = Object.values(h).some(r => r.attempts > 0);
+
+  app.innerHTML = `
+    <section class="card dashboard-card" aria-labelledby="dashboard-title">
+      <div class="dashboard-header">
+        <h2 id="dashboard-title">Performance Dashboard</h2>
+        <button id="homeBtn" class="btn btn-ghost">Home</button>
+      </div>
+
+      ${!hasData ? `
+        <div class="no-data-msg">
+          <p>No data yet. Complete at least one training session to see your stats.</p>
+          <button id="startFromDash" class="btn btn-primary">Start Training</button>
+        </div>` : `
+
+        <!-- Chart row 1 -->
+        <div class="chart-grid">
+          <div class="chart-box">
+            <p class="chart-title">Accuracy by Category</p>
+            <canvas id="catChart" height="200"></canvas>
+          </div>
+          <div class="chart-box">
+            <p class="chart-title">Avg Response Time by Difficulty (seconds)</p>
+            <canvas id="diffChart" height="200"></canvas>
+          </div>
+        </div>
+
+        <!-- Session trend -->
+        <div class="chart-box chart-box--wide">
+          <p class="chart-title">Accuracy Trend (last ${sessions.length} sessions)</p>
+          ${sessions.length < 2
+            ? `<p class="muted" style="padding:12px 0">Complete more sessions to see your trend.</p>`
+            : `<canvas id="trendChart" height="120"></canvas>`}
+        </div>
+
+        <!-- Most missed list -->
+        ${missed.length ? `
+        <div class="missed-list">
+          <p class="feedback-block__heading">Most missed scenarios</p>
+          <ul>
+            ${missed.map(s => `
+              <li class="missed-item">
+                <span class="missed-sender">${s.sender}</span>
+                <span class="badge ${s.acc < 40 ? 'badge--hard' : s.acc < 70 ? 'badge--medium' : 'badge--easy'}">${s.acc}% correct</span>
+                <span class="muted">${typeLabel(s.type)}</span>
+              </li>`).join('')}
+          </ul>
+        </div>` : ''}
+      `}
+    </section>`;
+
+  onActivate(document.getElementById('homeBtn'), viewHome);
+  if (!hasData) {
+    onActivate(document.getElementById('startFromDash'), start);
+    return;
+  }
+
+  // ── Render charts after DOM is ready ──
+  // Chart.js needs canvas elements to exist before creating charts
+
+  // Shared chart defaults
+  const chartDefaults = {
+    responsive: true,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { ticks: { color: '#6b7f99' }, grid: { color: '#1c2840' } },
+      y: { ticks: { color: '#6b7f99' }, grid: { color: '#1c2840' }, min: 0, max: 100 }
+    }
+  };
+
+  // Accuracy by category — bar chart
+  new Chart(document.getElementById('catChart'), {
+    type: 'bar',
+    data: {
+      labels: catLabels,
+      datasets: [{
+        data: catAccuracy,
+        backgroundColor: ['rgba(61,158,255,0.7)', 'rgba(46,204,113,0.7)', 'rgba(240,192,64,0.7)'],
+        borderColor:     ['#3d9eff', '#2ecc71', '#f0c040'],
+        borderWidth: 2,
+        borderRadius: 6,
+      }]
+    },
+    options: { ...chartDefaults, plugins: { legend: { display: false } } }
+  });
+
+  // Response time by difficulty — bar chart (y axis in seconds not %)
+  new Chart(document.getElementById('diffChart'), {
+    type: 'bar',
+    data: {
+      labels: diffLabels,
+      datasets: [{
+        data: diffTimes,
+        backgroundColor: ['rgba(46,204,113,0.7)', 'rgba(240,192,64,0.7)', 'rgba(231,76,60,0.7)'],
+        borderColor:     ['#2ecc71', '#f0c040', '#e74c3c'],
+        borderWidth: 2,
+        borderRadius: 6,
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { ticks: { color: '#6b7f99' }, grid: { color: '#1c2840' } },
+        y: { ticks: { color: '#6b7f99', callback: v => v+'s' }, grid: { color: '#1c2840' }, min: 0 }
+      }
+    }
+  });
+
+  // Session trend — line chart (only rendered if 2+ sessions)
+  if (sessions.length >= 2) {
+    new Chart(document.getElementById('trendChart'), {
+      type: 'line',
+      data: {
+        labels: sessionLabels,
+        datasets: [{
+          data: sessionAccuracy,
+          borderColor: '#3d9eff',
+          backgroundColor: 'rgba(61,158,255,0.1)',
+          borderWidth: 2,
+          pointBackgroundColor: '#3d9eff',
+          tension: 0.3,
+          fill: true,
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { ticks: { color: '#6b7f99' }, grid: { color: '#1c2840' } },
+          y: { ticks: { color: '#6b7f99', callback: v => v+'%' }, grid: { color: '#1c2840' }, min: 0, max: 100 }
+        }
+      }
+    });
+  }
 }
 
 // ============================================================
