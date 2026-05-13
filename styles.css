@@ -163,12 +163,16 @@ body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',system-u
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 14px;
+  width: 100%;
+  overflow: hidden;
 }
 .chart-box {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 10px;
   padding: 16px;
+  min-width: 0;
+  overflow: hidden;
 }
 .chart-box--wide {
   grid-column: 1 / -1;
