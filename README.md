@@ -24,7 +24,7 @@ The app is installable as a Progressive Web App (PWA). On mobile, tap Share and 
  
 ## Features
  
-- 31 scenarios across three attack categories: Email, SMS, and Vishing
+- 60 scenarios across three attack categories: Email, SMS, and Vishing
 - Difficulty progression — Easy scenarios appear before Medium and Hard within each session
 - Category filtering — train on all types or focus on one category
 - Immediate feedback with explanatory cues after every decision
