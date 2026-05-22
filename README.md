@@ -15,7 +15,7 @@ The application is designed for employees, students, and individuals who want to
 ---
  
 ## Live Demo
- 
+ heopendfknfpwaef
 **[https://santan365.github.io/phishing-trainer](https://santan365.github.io/phishing3/)**
  
 The app is installable as a Progressive Web App (PWA). On mobile, tap Share and then Add to Home Screen to install it like a native app. It works offline after the first load.
