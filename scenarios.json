@@ -1,5 +1,208 @@
 [
   {
+    "id": "email-004",
+    "type": "email",
+    "difficulty": 1,
+    "category": "email",
+    "sender": "Amazon",
+    "senderEmail": "auto-confirm@amazon.co.uk",
+    "timestamp": "08:27",
+    "subject": "Your order has been dispatched",
+    "body": "Hello {{name}}, your order #204-6291847-3847162 has been dispatched and is estimated to arrive Thursday 8 May. Track your parcel via the Amazon app or website.",
+    "displayLink": null,
+    "cues": [
+      "Addressed you by name",
+      "Contains a real order number",
+      "No urgent action required",
+      "Directs you to the app \u2014 not a link inside the email"
+    ],
+    "correctAction": "PROCEED",
+    "explanation": "Legitimate dispatch emails address you by name, include real order numbers, and never pressure you to click links. This is safe to proceed with."
+  },
+  {
+    "id": "email-007",
+    "type": "email",
+    "difficulty": 2,
+    "category": "email",
+    "sender": "Netflix",
+    "senderEmail": "info@mailer.netflix.com",
+    "timestamp": "19:04",
+    "subject": "Your November invoice is ready",
+    "body": "Hi {{name}}, your monthly invoice for \u00a310.99 is ready. You can view it any time by signing in to your account at netflix.com. No action is needed.",
+    "displayLink": null,
+    "cues": [
+      "Sent from an official Netflix subdomain (mailer.netflix.com)",
+      "No clickable links in the email body",
+      "No urgent action demanded",
+      "Explicitly states no action is needed"
+    ],
+    "correctAction": "PROCEED",
+    "explanation": "Legitimate Netflix billing emails come from mailer.netflix.com, contain no pressure, and direct you to the main site \u2014 not a link inside the email. This is safe."
+  },
+  {
+    "id": "email-m365-001",
+    "type": "email",
+    "difficulty": 3,
+    "category": "email",
+    "sender": "Microsoft 365",
+    "senderEmail": "MicrosoftOnline@notifications.microsoft.com",
+    "timestamp": "13:17",
+    "subject": "Sign-in from new device",
+    "body": "Hi {{name}}, you recently signed in to your Microsoft 365 account from a new Windows device in Leicester. If this was you, no action is needed. If you do not recognise this activity, review your recent activity at account.microsoft.com.",
+    "displayLink": null,
+    "cues": [
+      "Sent from the official Microsoft notifications domain",
+      "Addressed by name",
+      "No urgent action required",
+      "Directs you to the main Microsoft site \u2014 not a link in the email",
+      "Matches your actual location"
+    ],
+    "correctAction": "PROCEED",
+    "explanation": "This is a legitimate Microsoft 365 sign-in notification. It comes from an official Microsoft domain, addresses you by name, and directs you to account.microsoft.com rather than an unfamiliar link. No action needed if the sign-in was yours."
+  },
+  {
+    "id": "email-paypal-legit-001",
+    "type": "email",
+    "difficulty": 3,
+    "category": "email",
+    "sender": "PayPal",
+    "senderEmail": "service@paypal.com",
+    "timestamp": "15:30",
+    "subject": "You sent a payment of \u00a324.99",
+    "body": "Hi Alex, you sent \u00a324.99 to Spotify AB. This payment will appear on your statement as PAYPAL SPOTIFY. If you didn't authorise this payment, visit the Resolution Centre at paypal.com.",
+    "displayLink": null,
+    "cues": [
+      "Sent from service@paypal.com \u2014 the official PayPal domain",
+      "Addressed by name",
+      "References a recognisable merchant you may use",
+      "Directs you to paypal.com \u2014 not a third-party link",
+      "No urgency or threat"
+    ],
+    "correctAction": "PROCEED",
+    "explanation": "This is a legitimate PayPal payment confirmation. It comes from the official PayPal domain, is personalised, and references a common service. If you made this payment, no action is needed. If you did not, go directly to paypal.com to open a dispute."
+  },
+  {
+    "id": "email-002",
+    "type": "email",
+    "difficulty": 3,
+    "category": "email",
+    "sender": "PayPal Support",
+    "senderEmail": "security@paypaI.com",
+    "timestamp": "14:03",
+    "subject": "Action Required: Account Limited",
+    "body": "Your account has been limited. You must resolve this within 24 hours to avoid permanent suspension. Click below to verify.",
+    "displayLink": "resolve-paypaI.com",
+    "cues": [
+      "Capital I instead of lowercase l in PayPal \u2014 extremely easy to miss",
+      "Time pressure with threat of permanent suspension",
+      "Generic greeting \u2014 no name used",
+      "Unsolicited \u2014 you did not request any account action"
+    ],
+    "correctAction": "REPORT",
+    "explanation": "The sender email uses a capital I instead of l in PayPal \u2014 a typosquatting trick that looks nearly identical. PayPal always addresses you by your registered name. Never click links in unsolicited account emails."
+  },
+  {
+    "id": "email-005",
+    "type": "email",
+    "difficulty": 3,
+    "category": "email",
+    "sender": "IT Helpdesk",
+    "senderEmail": "helpdesk@company-support-desk.net",
+    "timestamp": "10:55",
+    "subject": "URGENT: Your password expires today",
+    "body": "Your company password will expire in 2 hours. To avoid losing access to all company systems, reset it now using the link below. Failure to act will lock your account.",
+    "displayLink": "company-support-desk.net/reset",
+    "cues": [
+      "External domain \u2014 not your company's own domain",
+      "Artificial 2-hour urgency window",
+      "Threatening total loss of access",
+      "Unsolicited \u2014 you did not request a password reset"
+    ],
+    "correctAction": "REPORT",
+    "explanation": "Your real IT team sends from your company's own domain, not a generic third-party domain. Password reset emails are triggered by the user, not sent unsolicited. Always verify with IT directly before clicking."
+  },
+  {
+    "id": "email-009",
+    "type": "email",
+    "difficulty": 3,
+    "category": "email",
+    "sender": "Dr. Sarah Chen",
+    "senderEmail": "s.chen@dmu-staff.ac.uk",
+    "timestamp": "22:47",
+    "subject": "Quick favour \u2014 urgent",
+    "body": "Hi, I'm in a meeting abroad and need you to purchase 3x \u00a3100 Amazon gift cards urgently for a departmental prize. I'll reimburse you tomorrow. Please send the codes to {{email}} as soon as possible. Don't call \u2014 I'm presenting.",
+    "displayLink": null,
+    "cues": [
+      "Sent late at night \u2014 unusual timing",
+      "Don't call prevents you verifying the request",
+      "Gift card payment is always a scam signal",
+      "Urgency combined with a promise of reimbursement",
+      "Even if the address looks real \u2014 always verify by another channel"
+    ],
+    "correctAction": "REPORT",
+    "explanation": "This is a spear-phishing CEO fraud attack. No institution pays via gift card codes. The don't call instruction stops you verifying. Always confirm unusual financial requests via phone or in person."
+  },
+  {
+    "id": "email-apple-001",
+    "type": "email",
+    "difficulty": 2,
+    "category": "email",
+    "sender": "Apple",
+    "senderEmail": "no-reply@apple-id-support.com",
+    "timestamp": "08:14",
+    "subject": "Your Apple ID has been locked",
+    "body": "Your Apple ID has been locked due to suspicious activity. To unlock your account and avoid permanent suspension, verify your information within 24 hours.",
+    "displayLink": "apple-id-support.com/verify",
+    "cues": [
+      "Official Apple emails come from apple.com \u2014 not apple-id-support.com",
+      "Threat of permanent suspension creates panic",
+      "24-hour deadline adds artificial urgency",
+      "Generic message with no personalisation"
+    ],
+    "correctAction": "REPORT",
+    "explanation": "This is an Apple phishing email. Apple's official emails come from apple.com only. The domain apple-id-support.com has no connection to Apple. If you are concerned about your account, go directly to appleid.apple.com in your browser."
+  },
+  {
+    "id": "email-phish-student-001",
+    "type": "email",
+    "difficulty": 3,
+    "category": "email",
+    "sender": "Student Finance England",
+    "senderEmail": "support@studentfinance-gov.co.uk",
+    "timestamp": "10:22",
+    "subject": "Action required: verify your bank details",
+    "body": "Your student loan payment for the upcoming term cannot be processed. To avoid a delay in your payment, please verify your bank account details within 48 hours.",
+    "displayLink": "studentfinance-gov.co.uk/verify",
+    "cues": [
+      "Official Student Finance England emails come from studentfinance.co.uk or slc.co.uk \u2014 not studentfinance-gov.co.uk",
+      "48-hour deadline creates panic",
+      "Student Finance never asks you to verify bank details via email link",
+      "Update bank details only through the official portal at gov.uk/student-finance"
+    ],
+    "correctAction": "REPORT",
+    "explanation": "This is a phishing email targeting students. The domain studentfinance-gov.co.uk is not affiliated with Student Finance England. All genuine communications come from slc.co.uk or studentfinance.co.uk. Update bank details only at gov.uk/student-finance."
+  },
+  {
+    "id": "email-ceo-001",
+    "type": "email",
+    "difficulty": 3,
+    "category": "email",
+    "sender": "Marcus Webb",
+    "senderEmail": "m.webb@companygroup-hq.net",
+    "timestamp": "08:47",
+    "subject": "Confidential wire transfer required",
+    "body": "Hi, I need you to arrange an urgent wire transfer of \u00a315,000 to a new supplier before close of business today. This is time sensitive and must not be discussed with other staff. Please confirm to {{email}} once done. I will explain more when I return from travel.",
+    "displayLink": null,
+    "cues": [
+      "Requests a large wire transfer urgently",
+      "Instruction to keep it confidential prevents verification",
+      "Sender domain is not the company's official domain",
+      "CEO fraud almost always involves travel as an excuse for not calling"
+    ],
+    "correctAction": "REPORT",
+    "explanation": "This is a CEO fraud attack. No legitimate business transfer request bypasses normal approval processes or asks for secrecy. Always verify large financial requests by calling the person directly on a known number \u2014 never reply to the email."
+  },
+  {
     "id": "sms-003",
     "type": "sms",
     "difficulty": 1,
@@ -19,136 +222,61 @@
     "explanation": "This is a legitimate OTP message. It contains no links, warns you not to share the code, and was almost certainly triggered by your own login. Proceed normally."
   },
   {
-    "id": "sms-008",
+    "id": "sms-parcel-001",
     "type": "sms",
     "difficulty": 1,
     "category": "sms",
-    "sender": "Unknown",
-    "number": "+1 332 255 0198",
-    "timestamp": "03:27",
-    "body": "Hi, I found your number through a mutual friend. I have a once-in-a-lifetime crypto investment opportunity with guaranteed 300% returns. Interested?",
+    "sender": "Evri",
+    "number": "+44 7700 223344",
+    "timestamp": "12:10",
+    "body": "Your parcel from ASOS could not be delivered today. You have not been charged. Rebook your delivery free at evri.com",
     "displayLink": null,
     "cues": [
-      "Unsolicited contact from an international unknown number",
-      "Vague mutual friend claim with no name given",
-      "Guaranteed returns \u2014 no legitimate investment guarantees anything",
-      "Sent at 3am",
-      "Pressures you toward a financial decision"
-    ],
-    "correctAction": "REPORT",
-    "explanation": "This is a classic investment scam. No legitimate investment guarantees returns. The mutual friend claim is designed to lower your guard. Report and block."
-  },
-  {
-    "id": "email-004",
-    "type": "email",
-    "difficulty": 1,
-    "category": "email",
-    "sender": "Amazon",
-    "senderEmail": "auto-confirm@amazon.co.uk",
-    "timestamp": "08:27",
-    "subject": "Your order has been dispatched",
-    "body": "Hello Alex, your order #204-6291847-3847162 has been dispatched and is estimated to arrive Thursday 8 May. Track your parcel via the Amazon app or website.",
-    "displayLink": null,
-    "cues": [
-      "Addressed you by name",
-      "Contains a real order number",
-      "No urgent action required",
-      "Directs you to the app \u2014 not a link inside the email"
-    ],
-    "correctAction": "PROCEED",
-    "explanation": "Legitimate dispatch emails address you by name, include real order numbers, and never pressure you to click links. This is safe to proceed with."
-  },
-  {
-    "id": "sms-nhs-001",
-    "type": "sms",
-    "difficulty": 1,
-    "category": "sms",
-    "sender": "NHS",
-    "number": "NHS",
-    "timestamp": "09:05",
-    "body": "Reminder: You have an appointment at Leicester Royal Infirmary on 14 May at 10:30am. Reply STOP to opt out of reminders.",
-    "displayLink": null,
-    "cues": [
-      "No link or payment requested",
-      "Matches an appointment you booked",
-      "Offers a clear opt-out",
-      "Sent from a recognisable sender ID"
-    ],
-    "correctAction": "PROCEED",
-    "explanation": "This is a standard NHS appointment reminder. It contains no links, requests no action beyond attending your appointment, and offers a legitimate opt-out. Proceed normally."
-  },
-  {
-    "id": "sms-whatsapp-001",
-    "type": "sms",
-    "difficulty": 1,
-    "category": "sms",
-    "sender": "WhatsApp",
-    "number": "+1 415 523 8886",
-    "timestamp": "14:22",
-    "body": "Your WhatsApp account is being registered on a new device. Do not share this code. Your WhatsApp code: 739-284",
-    "displayLink": null,
-    "cues": [
-      "You did NOT request this code",
-      "Someone else is trying to register your number on a new device",
-      "Do not share this code with anyone who contacts you asking for it",
-      "If you did not request this \u2014 your account may be under attack"
-    ],
-    "correctAction": "REPORT",
-    "explanation": "This is a WhatsApp account takeover attempt. Someone is trying to register your number on their device. Do not share the code with anyone who contacts you claiming to need it. Go to WhatsApp settings and enable two-step verification immediately."
-  },
-  {
-    "id": "vishing-001",
-    "type": "vishing",
-    "difficulty": 1,
-    "category": "vishing",
-    "sender": "Unknown Caller",
-    "number": "02045 123456",
-    "timestamp": "14:30",
-    "transcript": [
-      {
-        "role": "caller",
-        "text": "Hello, this is Microsoft technical support. We have detected a serious virus on your computer that is sending data to hackers right now."
-      },
-      {
-        "role": "caller",
-        "text": "You need to install our remote access software immediately so we can fix it. Please go to fixmypc-now.com and download the tool."
-      },
-      {
-        "role": "caller",
-        "text": "This is urgent \u2014 your personal files are at risk. Do you have your computer in front of you?"
-      }
-    ],
-    "displayLink": "fixmypc-now.com",
-    "cues": [
-      "Microsoft never cold-calls customers about viruses",
-      "Extreme urgency to act immediately",
-      "Requesting remote access to your device",
-      "Suspicious third-party domain \u2014 not Microsoft.com",
-      "Emotional pressure about personal files being at risk"
-    ],
-    "correctAction": "REPORT",
-    "explanation": "This is a classic tech support vishing scam. Microsoft and Apple do not cold-call users about viruses. Granting remote access would hand full control of your device to the attacker. Hang up immediately."
-  },
-  {
-    "id": "email-facebook-001",
-    "type": "email",
-    "difficulty": 2,
-    "category": "email",
-    "sender": "Facebook",
-    "senderEmail": "security@facebookmail.com",
-    "timestamp": "16:44",
-    "subject": "New login to your Facebook account",
-    "body": "Hi Alex, we noticed a new login to your Facebook account from Leicester, United Kingdom using Chrome on Windows. If this was you, you can ignore this message. If this was not you, visit facebook.com to secure your account.",
-    "displayLink": null,
-    "cues": [
-      "Sent from the official Facebook mail domain",
-      "No link included in the email body \u2014 directs you to the main site",
-      "Matches your location",
+      "Explicitly states no charge",
+      "Directs you to the official evri.com domain",
       "No urgency or threat",
-      "Does not ask for your password"
+      "You may be expecting a parcel from ASOS"
     ],
     "correctAction": "PROCEED",
-    "explanation": "This is a legitimate Facebook security notification. It comes from facebookmail.com, contains no suspicious links, matches your location, and does not pressure you to click anything. If the login was yours, ignore it. If not, go directly to facebook.com to secure your account."
+    "explanation": "This is a legitimate Evri missed delivery notification. It directs you to the official evri.com site, requests no payment, and contains no suspicious link. Rebook your delivery directly at evri.com."
+  },
+  {
+    "id": "sms-bank-legit-001",
+    "type": "sms",
+    "difficulty": 1,
+    "category": "sms",
+    "sender": "Lloyds Bank",
+    "number": "Lloyds",
+    "timestamp": "10:02",
+    "body": "Lloyds: Your new debit card has been dispatched and will arrive within 3 working days. If you did not request this, call us on 03456 00 61 61.",
+    "displayLink": null,
+    "cues": [
+      "No link included",
+      "Provides a phone number to call if you did not request this",
+      "Standard card dispatch notification",
+      "Matches expected bank communication"
+    ],
+    "correctAction": "PROCEED",
+    "explanation": "This is a legitimate Lloyds card dispatch notification. It contains no link, provides a genuine customer service number, and requires no action if you requested the card."
+  },
+  {
+    "id": "sms-delivery-legit-001",
+    "type": "sms",
+    "difficulty": 1,
+    "category": "sms",
+    "sender": "DPD",
+    "number": "DPD",
+    "timestamp": "07:58",
+    "body": "DPD: Your parcel 15-99283746-123 is out for delivery today. Your 1-hour delivery window is 10:32-11:32. Track at dpd.co.uk or reply SAFE to authorise a safe place.",
+    "displayLink": null,
+    "cues": [
+      "Sent from official DPD sender ID",
+      "Contains a real tracking number",
+      "Directs you to dpd.co.uk \u2014 not a third-party link",
+      "Offers a clear action with no payment required"
+    ],
+    "correctAction": "PROCEED",
+    "explanation": "This is a legitimate DPD delivery notification. It contains a real tracking number, directs you to dpd.co.uk, and requires no payment. Safe to follow up at dpd.co.uk if you want to track your parcel."
   },
   {
     "id": "sms-001",
@@ -189,83 +317,145 @@
     "explanation": "This is a smishing scam. The domain swaps l for 1. Royal Mail handles redelivery through royalmail.com or their official app only, never via unsolicited SMS payment links."
   },
   {
-    "id": "sms-dvla-001",
+    "id": "sms-whatsapp-001",
+    "type": "sms",
+    "difficulty": 1,
+    "category": "sms",
+    "sender": "WhatsApp",
+    "number": "+1 415 523 8886",
+    "timestamp": "14:22",
+    "body": "Your WhatsApp account is being registered on a new device. Do not share this code. Your WhatsApp code: 739-284",
+    "displayLink": null,
+    "cues": [
+      "You did NOT request this code",
+      "Someone else is trying to register your number on a new device",
+      "Do not share this code with anyone who contacts you asking for it",
+      "If you did not request this \u2014 your account may be under attack"
+    ],
+    "correctAction": "REPORT",
+    "explanation": "This is a WhatsApp account takeover attempt. Someone is trying to register your number on their device. Do not share the code with anyone who contacts you claiming to need it. Go to WhatsApp settings and enable two-step verification immediately."
+  },
+  {
+    "id": "sms-nhs-appt-001",
+    "type": "sms",
+    "difficulty": 3,
+    "category": "sms",
+    "sender": "NHS",
+    "number": "NHS",
+    "timestamp": "08:30",
+    "body": "NHS: Due to high demand, your GP appointment has been moved. Confirm your new slot and pay a \u00a34.50 admin fee to secure it: nhs-appointments-uk.com",
+    "displayLink": "nhs-appointments-uk.com",
+    "cues": [
+      "NHS GP appointments are always free \u2014 there is never an admin fee",
+      "NHS appointment notifications never include payment links",
+      "nhs-appointments-uk.com is not an NHS domain (nhs.uk)",
+      "SMS sender IDs can be spoofed to display NHS"
+    ],
+    "correctAction": "REPORT",
+    "explanation": "This is a sophisticated smishing scam. GP appointments on the NHS are always completely free. The NHS never charges admin fees for rescheduling. Contact your GP surgery directly using the number from nhs.uk to check your appointment."
+  },
+  {
+    "id": "sms-barclays-001",
+    "type": "sms",
+    "difficulty": 3,
+    "category": "sms",
+    "sender": "Barclays",
+    "number": "Barclays",
+    "timestamp": "08:55",
+    "body": "Barclays: We have temporarily suspended your account following unusual activity. To restore access, confirm your details at barclays-secure-verify.com",
+    "displayLink": "barclays-secure-verify.com",
+    "cues": [
+      "The sender ID says Barclays but SMS sender IDs can be spoofed \u2014 this does not verify the sender",
+      "barclays-secure-verify.com is not a Barclays domain \u2014 all genuine Barclays services are at barclays.co.uk",
+      "Barclays never asks you to verify details via a link in a text",
+      "If your account were suspended you would be unable to log in \u2014 check the app directly"
+    ],
+    "correctAction": "REPORT",
+    "explanation": "This is a sophisticated smishing attack that spoofs the Barclays sender ID to appear legitimate. SMS sender IDs can be faked by anyone. The real giveaway is the domain \u2014 all genuine Barclays services use barclays.co.uk. Always go directly to your banking app to check your account status."
+  },
+  {
+    "id": "sms-crypto-001",
     "type": "sms",
     "difficulty": 2,
     "category": "sms",
-    "sender": "DVLA",
-    "number": "+44 7700 112233",
-    "timestamp": "10:30",
-    "body": "DVLA: Your vehicle tax expired 3 days ago. You must pay immediately to avoid a \u00a31,000 fine. Pay now: dvla-tax-renew.com",
-    "displayLink": "dvla-tax-renew.com",
+    "sender": "Coinbase",
+    "number": "+1 650 453 0000",
+    "timestamp": "02:14",
+    "body": "Coinbase Alert: Withdrawal of 0.42 BTC detected from your account. If this was not you, cancel immediately: coinbase-secure-cancel.com",
+    "displayLink": "coinbase-secure-cancel.com",
     "cues": [
-      "DVLA does not send payment links via SMS",
-      "Threat of a large fine creates panic",
-      "The domain is not gov.uk \u2014 all genuine DVLA services are at gov.uk",
-      "You can check your vehicle tax status at gov.uk for free"
+      "Coinbase alerts come through the app and email \u2014 not international SMS",
+      "coinbase-secure-cancel.com is not a Coinbase domain",
+      "Sent at 2am to create panic before you think clearly",
+      "Threat of losing cryptocurrency triggers emotional response"
     ],
     "correctAction": "REPORT",
-    "explanation": "This is a smishing scam impersonating the DVLA. All genuine DVLA communications direct you to gov.uk, never to third-party domains. Check your vehicle tax status at gov.uk/check-vehicle-tax directly."
+    "explanation": "This is a smishing scam impersonating Coinbase. All genuine Coinbase security alerts appear in the app and are sent from coinbase.com email addresses. If concerned, log in directly through the Coinbase app \u2014 never through a link in a text."
   },
   {
-    "id": "email-007",
-    "type": "email",
+    "id": "vishing-bank-legit-001",
+    "type": "vishing",
     "difficulty": 2,
-    "category": "email",
-    "sender": "Netflix",
-    "senderEmail": "info@mailer.netflix.com",
-    "timestamp": "19:04",
-    "subject": "Your November invoice is ready",
-    "body": "Hi Alex, your monthly invoice for \u00a310.99 is ready. You can view it any time by signing in to your account at netflix.com. No action is needed.",
+    "category": "vishing",
+    "sender": "NatWest",
+    "number": "0800 161 5154",
+    "timestamp": "11:30",
+    "transcript": [
+      {
+        "role": "caller",
+        "text": "Hello, this is NatWest calling. I'm just ringing to let you know we've noticed an unusual transaction on your account for \u00a349.99 at an online retailer."
+      },
+      {
+        "role": "caller",
+        "text": "We wanted to check if you recognise this before we approve it. I can read you the last four digits of your card if you'd like to verify which card it relates to."
+      },
+      {
+        "role": "caller",
+        "text": "You don't need to give me any personal information \u2014 I just need a yes or no to whether you recognise this transaction."
+      }
+    ],
     "displayLink": null,
     "cues": [
-      "Sent from an official Netflix subdomain (mailer.netflix.com)",
-      "No clickable links in the email body",
-      "No urgent action demanded",
-      "Explicitly states no action is needed"
+      "Does not ask for your PIN, password, or full card number",
+      "Offers to verify information to you rather than asking you to verify to them",
+      "Only requires a yes or no answer",
+      "You can hang up and call the number on the back of your card to confirm"
     ],
     "correctAction": "PROCEED",
-    "explanation": "Legitimate Netflix billing emails come from mailer.netflix.com, contain no pressure, and direct you to the main site \u2014 not a link inside the email. This is safe."
+    "explanation": "This call displays the hallmarks of a legitimate bank fraud check. The caller does not ask for sensitive information and offers to verify details to you. However you can always hang up and call the number on the back of your card to confirm before responding."
   },
   {
-    "id": "email-apple-001",
-    "type": "email",
-    "difficulty": 2,
-    "category": "email",
-    "sender": "Apple",
-    "senderEmail": "no-reply@apple-id-support.com",
-    "timestamp": "08:14",
-    "subject": "Your Apple ID has been locked",
-    "body": "Your Apple ID has been locked due to suspicious activity. To unlock your account and avoid permanent suspension, verify your information within 24 hours.",
-    "displayLink": "apple-id-support.com/verify",
+    "id": "vishing-001",
+    "type": "vishing",
+    "difficulty": 1,
+    "category": "vishing",
+    "sender": "Unknown Caller",
+    "number": "02045 123456",
+    "timestamp": "14:30",
+    "transcript": [
+      {
+        "role": "caller",
+        "text": "Hello, this is Microsoft technical support. We have detected a serious virus on your computer that is sending data to hackers right now."
+      },
+      {
+        "role": "caller",
+        "text": "You need to install our remote access software immediately so we can fix it. Please go to fixmypc-now.com and download the tool."
+      },
+      {
+        "role": "caller",
+        "text": "This is urgent \u2014 your personal files are at risk. Do you have your computer in front of you?"
+      }
+    ],
+    "displayLink": "fixmypc-now.com",
     "cues": [
-      "Official Apple emails come from apple.com \u2014 not apple-id-support.com",
-      "Threat of permanent suspension creates panic",
-      "24-hour deadline adds artificial urgency",
-      "Generic message with no personalisation"
+      "Microsoft never cold-calls customers about viruses",
+      "Extreme urgency to act immediately",
+      "Requesting remote access to your device",
+      "Suspicious third-party domain \u2014 not Microsoft.com",
+      "Emotional pressure about personal files being at risk"
     ],
     "correctAction": "REPORT",
-    "explanation": "This is an Apple phishing email. Apple's official emails come from apple.com only. The domain apple-id-support.com has no connection to Apple. If you are concerned about your account, go directly to appleid.apple.com in your browser."
-  },
-  {
-    "id": "email-job-001",
-    "type": "email",
-    "difficulty": 2,
-    "category": "email",
-    "sender": "TechRecruit Global",
-    "senderEmail": "careers@techrecruit-global.net",
-    "timestamp": "11:55",
-    "subject": "Exciting job opportunity \u2014 \u00a385,000 remote role, no experience needed",
-    "body": "Congratulations! You have been selected for a remote position paying \u00a385,000 per year. No prior experience is required. To secure this offer, please reply with your bank details and a copy of your passport for our background check.",
-    "displayLink": null,
-    "cues": [
-      "Unsolicited job offer you did not apply for",
-      "Unrealistically high salary with no experience required",
-      "Requests bank details and passport \u2014 a major red flag",
-      "Vague company name with no verifiable online presence"
-    ],
-    "correctAction": "REPORT",
-    "explanation": "This is a job scam designed to steal your identity and banking details. Legitimate employers never ask for bank details or passport copies via email before you have been formally hired through a verified process. Never send sensitive documents to an unsolicited contact."
+    "explanation": "This is a classic tech support vishing scam. Microsoft and Apple do not cold-call users about viruses. Granting remote access would hand full control of your device to the attacker. Hang up immediately."
   },
   {
     "id": "vishing-002",
@@ -334,166 +524,6 @@
     "explanation": "This is a courier fraud scam impersonating the police. Real police officers never ask you to withdraw cash or keep a call secret. Hang up immediately and call your bank using the number on the back of your card."
   },
   {
-    "id": "email-002",
-    "type": "email",
-    "difficulty": 3,
-    "category": "email",
-    "sender": "PayPal Support",
-    "senderEmail": "security@paypaI.com",
-    "timestamp": "14:03",
-    "subject": "Action Required: Account Limited",
-    "body": "Your account has been limited. You must resolve this within 24 hours to avoid permanent suspension. Click below to verify.",
-    "displayLink": "resolve-paypaI.com",
-    "cues": [
-      "Capital I instead of lowercase l in PayPal \u2014 extremely easy to miss",
-      "Time pressure with threat of permanent suspension",
-      "Generic greeting \u2014 no name used",
-      "Unsolicited \u2014 you did not request any account action"
-    ],
-    "correctAction": "REPORT",
-    "explanation": "The sender email uses a capital I instead of l in PayPal \u2014 a typosquatting trick that looks nearly identical. PayPal always addresses you by your registered name. Never click links in unsolicited account emails."
-  },
-  {
-    "id": "email-005",
-    "type": "email",
-    "difficulty": 3,
-    "category": "email",
-    "sender": "IT Helpdesk",
-    "senderEmail": "helpdesk@company-support-desk.net",
-    "timestamp": "10:55",
-    "subject": "URGENT: Your password expires today",
-    "body": "Your company password will expire in 2 hours. To avoid losing access to all company systems, reset it now using the link below. Failure to act will lock your account.",
-    "displayLink": "company-support-desk.net/reset",
-    "cues": [
-      "External domain \u2014 not your company's own domain",
-      "Artificial 2-hour urgency window",
-      "Threatening total loss of access",
-      "Unsolicited \u2014 you did not request a password reset"
-    ],
-    "correctAction": "REPORT",
-    "explanation": "Your real IT team sends from your company's own domain, not a generic third-party domain. Password reset emails are triggered by the user, not sent unsolicited. Always verify with IT directly before clicking."
-  },
-  {
-    "id": "email-009",
-    "type": "email",
-    "difficulty": 3,
-    "category": "email",
-    "sender": "Dr. Sarah Chen",
-    "senderEmail": "s.chen@dmu-staff.ac.uk",
-    "timestamp": "22:47",
-    "subject": "Quick favour \u2014 urgent",
-    "body": "Hi, I'm in a meeting abroad and need you to purchase 3x \u00a3100 Amazon gift cards urgently for a departmental prize. I'll reimburse you tomorrow. Please send the codes to this email as soon as possible. Don't call \u2014 I'm presenting.",
-    "displayLink": null,
-    "cues": [
-      "Sent late at night \u2014 unusual timing",
-      "Don't call prevents you verifying the request",
-      "Gift card payment is always a scam signal",
-      "Urgency combined with a promise of reimbursement",
-      "Even if the address looks real \u2014 always verify by another channel"
-    ],
-    "correctAction": "REPORT",
-    "explanation": "This is a spear-phishing CEO fraud attack. No institution pays via gift card codes. The don't call instruction stops you verifying. Always confirm unusual financial requests via phone or in person."
-  },
-  {
-    "id": "email-microsoft-001",
-    "type": "email",
-    "difficulty": 3,
-    "category": "email",
-    "sender": "Microsoft Account Team",
-    "senderEmail": "account-security@microsoft-alerts.com",
-    "timestamp": "07:33",
-    "subject": "Unusual sign-in activity on your Microsoft account",
-    "body": "We detected a sign-in to your Microsoft account from Russia. If this was not you, your account may be compromised. Verify your identity immediately to prevent account deletion.",
-    "displayLink": "microsoft-alerts.com/verify",
-    "cues": [
-      "Official Microsoft emails come from microsoft.com \u2014 not microsoft-alerts.com",
-      "Threat of account deletion creates panic",
-      "Foreign country location designed to alarm you",
-      "Link goes to a non-Microsoft domain"
-    ],
-    "correctAction": "REPORT",
-    "explanation": "This is a phishing email impersonating Microsoft. The domain microsoft-alerts.com is not affiliated with Microsoft. All genuine Microsoft security alerts come from microsoft.com. If concerned, go directly to account.microsoft.com in your browser."
-  },
-  {
-    "id": "email-m365-001",
-    "type": "email",
-    "difficulty": 3,
-    "category": "email",
-    "sender": "Microsoft 365",
-    "senderEmail": "MicrosoftOnline@notifications.microsoft.com",
-    "timestamp": "13:17",
-    "subject": "Sign-in from new device",
-    "body": "Hi Alex, you recently signed in to your Microsoft 365 account from a new Windows device in Leicester. If this was you, no action is needed. If you don't recognise this activity, review your recent activity at account.microsoft.com.",
-    "displayLink": null,
-    "cues": [
-      "Sent from the official Microsoft notifications domain",
-      "Addressed by name",
-      "No urgent action required",
-      "Directs you to the main Microsoft site \u2014 not a link in the email",
-      "Matches your actual location"
-    ],
-    "correctAction": "PROCEED",
-    "explanation": "This is a legitimate Microsoft 365 sign-in notification. It comes from an official Microsoft domain, addresses you by name, and directs you to account.microsoft.com rather than an unfamiliar link. No action needed if the sign-in was yours."
-  },
-  {
-    "id": "sms-dhl-001",
-    "type": "sms",
-    "difficulty": 2,
-    "category": "sms",
-    "sender": "DHL Express",
-    "number": "+44 7700 334455",
-    "timestamp": "11:20",
-    "body": "DHL: Your parcel is out for delivery today between 10am-12pm. Track live: dhl-parcel-uk.com/track?id=GB29481",
-    "displayLink": "dhl-parcel-uk.com",
-    "cues": [
-      "Official DHL tracking links go to dhl.com \u2014 not dhl-parcel-uk.com",
-      "Lookalike domain designed to appear legitimate",
-      "You may or may not be expecting a parcel",
-      "Hover over the link before clicking \u2014 the domain is not dhl.com"
-    ],
-    "correctAction": "REPORT",
-    "explanation": "This is a smishing scam using a DHL lookalike domain. All genuine DHL tracking goes through dhl.com. If you are expecting a parcel, go directly to dhl.com and enter your tracking number there rather than clicking any link in a text message."
-  },
-  {
-    "id": "email-colleague-001",
-    "type": "email",
-    "difficulty": 3,
-    "category": "email",
-    "sender": "James Whitfield",
-    "senderEmail": "j.whitfield@dmu-staff.ac.uk",
-    "timestamp": "09:02",
-    "subject": "Shared document \u2014 please review",
-    "body": "Hi, I've shared a document with you that needs your input before our 11am meeting. Please sign in with your university credentials to access it.",
-    "displayLink": "sharepoint-dmu-docs.net/review",
-    "cues": [
-      "University SharePoint links go through sharepoint.com or your institution's own domain \u2014 not sharepoint-dmu-docs.net",
-      "The link domain is not affiliated with DMU",
-      "Requesting your university credentials via a third-party site would give attackers your login",
-      "Even if the sender name looks real \u2014 check the link domain carefully"
-    ],
-    "correctAction": "REPORT",
-    "explanation": "This is a credential harvesting phishing attack. The link goes to a lookalike domain designed to steal your university login. Legitimate shared documents from colleagues use Microsoft 365 SharePoint links that end in sharepoint.com. Always verify the domain before entering any credentials."
-  },
-  {
-    "id": "sms-barclays-001",
-    "type": "sms",
-    "difficulty": 3,
-    "category": "sms",
-    "sender": "Barclays",
-    "number": "Barclays",
-    "timestamp": "08:55",
-    "body": "Barclays: We have temporarily suspended your account following unusual activity. To restore access, confirm your details at barclays-secure-verify.com",
-    "displayLink": "barclays-secure-verify.com",
-    "cues": [
-      "The sender ID says Barclays but SMS sender IDs can be spoofed \u2014 this does not verify the sender",
-      "barclays-secure-verify.com is not a Barclays domain \u2014 all genuine Barclays services are at barclays.co.uk",
-      "Barclays never asks you to verify details via a link in a text",
-      "If your account were suspended you would be unable to log in \u2014 check the app directly"
-    ],
-    "correctAction": "REPORT",
-    "explanation": "This is a sophisticated smishing attack that spoofs the Barclays sender ID to appear legitimate. SMS sender IDs can be faked by anyone. The real giveaway is the domain \u2014 all genuine Barclays services use barclays.co.uk. Always go directly to your banking app to check your account status."
-  },
-  {
     "id": "vishing-bank-001",
     "type": "vishing",
     "difficulty": 3,
@@ -524,614 +554,6 @@
     ],
     "correctAction": "REPORT",
     "explanation": "This is an authorised push payment fraud call. No bank will ever ask for your PIN, request you move money to a safe account, or ask for an OTP. Hang up and call the number on the back of your card to verify. Never call back the number that called you."
-  },
-  {
-    "id": "email-paypal-legit-001",
-    "type": "email",
-    "difficulty": 3,
-    "category": "email",
-    "sender": "PayPal",
-    "senderEmail": "service@paypal.com",
-    "timestamp": "15:30",
-    "subject": "You sent a payment of \u00a324.99",
-    "body": "Hi Alex, you sent \u00a324.99 to Spotify AB. This payment will appear on your statement as PAYPAL SPOTIFY. If you didn't authorise this payment, visit the Resolution Centre at paypal.com.",
-    "displayLink": null,
-    "cues": [
-      "Sent from service@paypal.com \u2014 the official PayPal domain",
-      "Addressed by name",
-      "References a recognisable merchant you may use",
-      "Directs you to paypal.com \u2014 not a third-party link",
-      "No urgency or threat"
-    ],
-    "correctAction": "PROCEED",
-    "explanation": "This is a legitimate PayPal payment confirmation. It comes from the official PayPal domain, is personalised, and references a common service. If you made this payment, no action is needed. If you did not, go directly to paypal.com to open a dispute."
-  },
-  {
-    "id": "email-romance-001",
-    "type": "email",
-    "difficulty": 2,
-    "category": "email",
-    "sender": "Emily Foster",
-    "senderEmail": "emily.foster2847@gmail.com",
-    "timestamp": "21:15",
-    "subject": "I need your help \u2014 please read",
-    "body": "Hello dear, I know this may seem unusual but I have been following your profile and feel a strong connection. I am currently stranded abroad after my wallet was stolen. I only need \u00a3300 to get home safely. I will pay you back as soon as I return. Please respond urgently.",
-    "displayLink": null,
-    "cues": [
-      "Unsolicited email from an unknown person claiming a personal connection",
-      "Request for money from a stranger is always a red flag",
-      "Sob story designed to provoke sympathy and urgency",
-      "Gmail address with no verifiable identity",
-      "You have no prior relationship with this person"
-    ],
-    "correctAction": "REPORT",
-    "explanation": "This is a romance or advance fee scam. Scammers manufacture emotional connections to request money. No matter how convincing the story, sending money to an unknown contact you have never met is extremely high risk. Block and report."
-  },
-  {
-    "id": "sms-amazon-001",
-    "type": "sms",
-    "difficulty": 2,
-    "category": "sms",
-    "sender": "Amazon",
-    "number": "+44 7700 998877",
-    "timestamp": "17:42",
-    "body": "Amazon: Suspicious activity detected on your account. Your account has been locked. Verify immediately: amazon-account-verify.com",
-    "displayLink": "amazon-account-verify.com",
-    "cues": [
-      "Amazon alerts go through amazon.co.uk or the Amazon app \u2014 not amazon-account-verify.com",
-      "Account locked threat creates panic and urgency",
-      "Real Amazon security alerts direct you to the app or amazon.co.uk",
-      "SMS sender IDs can be spoofed to display Amazon"
-    ],
-    "correctAction": "REPORT",
-    "explanation": "This is a smishing scam impersonating Amazon. The domain amazon-account-verify.com is not affiliated with Amazon. If you are concerned about your account, open the Amazon app directly or go to amazon.co.uk in your browser \u2014 never follow a link from a text message."
-  },
-  {
-    "id": "email-hmrc-refund-001",
-    "type": "email",
-    "difficulty": 3,
-    "category": "email",
-    "sender": "HM Revenue and Customs",
-    "senderEmail": "noreply@hmrc-taxrefund.co.uk",
-    "timestamp": "10:05",
-    "subject": "Tax Refund Notification \u2014 \u00a3347.20",
-    "body": "Dear Taxpayer, following a recent review of your tax records we have identified that you are owed a tax refund of \u00a3347.20. To claim your refund please complete the form within 5 days.",
-    "displayLink": "hmrc-taxrefund.co.uk/claim",
-    "cues": [
-      "Official HMRC emails come from hmrc.gov.uk \u2014 not hmrc-taxrefund.co.uk",
-      "HMRC processes refunds automatically \u2014 they do not ask you to claim via a link",
-      "Generic Dear Taxpayer greeting with no personalisation",
-      "5-day deadline creates pressure",
-      "A specific refund amount makes the email appear credible"
-    ],
-    "correctAction": "REPORT",
-    "explanation": "This is a phishing email impersonating HMRC. All genuine HMRC emails come from hmrc.gov.uk and refunds are processed automatically to the bank account on your tax record. HMRC never asks you to claim a refund by clicking a link in an email."
-  },
-  {
-    "id": "sms-parcel-001",
-    "type": "sms",
-    "difficulty": 1,
-    "category": "sms",
-    "sender": "Evri",
-    "number": "+44 7700 223344",
-    "timestamp": "12:10",
-    "body": "Your parcel from ASOS could not be delivered today. You have not been charged. Rebook your delivery free at evri.com",
-    "displayLink": null,
-    "cues": [
-      "Explicitly states no charge",
-      "Directs you to the official evri.com domain",
-      "No urgency or threat",
-      "You may be expecting a parcel from ASOS"
-    ],
-    "correctAction": "PROCEED",
-    "explanation": "This is a legitimate Evri missed delivery notification. It directs you to the official evri.com site, requests no payment, and contains no suspicious link. Rebook your delivery directly at evri.com."
-  },
-  {
-    "id": "vishing-it-001",
-    "type": "vishing",
-    "difficulty": 3,
-    "category": "vishing",
-    "sender": "IT Support",
-    "number": "Internal: 2847",
-    "timestamp": "10:45",
-    "transcript": [
-      {
-        "role": "caller",
-        "text": "Hi, this is Dave from the IT support desk. We've had a report that your account credentials may have been compromised in a recent data breach."
-      },
-      {
-        "role": "caller",
-        "text": "I just need to verify your identity before I can lock down your account. Can you confirm your current username and password for me?"
-      },
-      {
-        "role": "caller",
-        "text": "This will only take a moment and I can make sure your account is secured before any data is accessed."
-      }
-    ],
-    "displayLink": null,
-    "cues": [
-      "IT support never asks for your password \u2014 ever",
-      "Internal extension numbers can be spoofed",
-      "The caller contacted you \u2014 you cannot verify who they are",
-      "The right action is to hang up and call IT support back on the official number",
-      "A real IT team can reset your account without knowing your current password"
-    ],
-    "correctAction": "REPORT",
-    "explanation": "This is a vishing attack impersonating internal IT support. No legitimate IT team ever needs your password \u2014 they have tools to reset or secure accounts without it. Hang up and call your IT helpdesk back using the official number from your company's intranet or directory."
-  },
-  {
-    "id": "email-linkedin-001",
-    "type": "email",
-    "difficulty": 2,
-    "category": "email",
-    "sender": "LinkedIn",
-    "senderEmail": "messages-noreply@linkedin.com",
-    "timestamp": "14:28",
-    "subject": "You have 3 new connection requests",
-    "body": "Hi Alex, you have 3 new connection requests waiting for you on LinkedIn. Sign in to view them at linkedin.com.",
-    "displayLink": null,
-    "cues": [
-      "Sent from messages-noreply@linkedin.com \u2014 a legitimate LinkedIn domain",
-      "Directs you to linkedin.com \u2014 not a third-party URL",
-      "No credentials requested",
-      "No urgency or threat"
-    ],
-    "correctAction": "PROCEED",
-    "explanation": "This is a standard LinkedIn notification email. It comes from the official LinkedIn domain and directs you to linkedin.com. No action is required \u2014 simply log in to LinkedIn normally to view your connection requests."
-  },
-  {
-    "id": "email-spotify-001",
-    "type": "email",
-    "difficulty": 1,
-    "category": "email",
-    "sender": "Spotify",
-    "senderEmail": "no-reply@spotify.com",
-    "timestamp": "07:12",
-    "subject": "Your monthly receipt from Spotify",
-    "body": "Hi Alex, thanks for being a Premium member. Your payment of \u00a39.99 was processed successfully on 1 May 2026. You can view your receipt any time in your account settings at spotify.com.",
-    "displayLink": null,
-    "cues": [
-      "Sent from the official Spotify domain",
-      "No links in the email body",
-      "No urgent action required",
-      "Matches a payment you would expect"
-    ],
-    "correctAction": "PROCEED",
-    "explanation": "This is a standard Spotify billing receipt. It comes from the official domain, contains no suspicious links, and requires no action. Safe to proceed."
-  },
-  {
-    "id": "email-google-001",
-    "type": "email",
-    "difficulty": 2,
-    "category": "email",
-    "sender": "Google",
-    "senderEmail": "no-reply@accounts.google.com",
-    "timestamp": "11:03",
-    "subject": "Security alert \u2014 new sign-in on Windows",
-    "body": "Your Google account was just signed in to on a Windows device in London. If this was you, you can ignore this email. If not, go to myaccount.google.com to secure your account.",
-    "displayLink": null,
-    "cues": [
-      "Official Google accounts domain",
-      "No link in the email \u2014 directs to myaccount.google.com directly",
-      "Matches your location",
-      "No urgency or threat"
-    ],
-    "correctAction": "PROCEED",
-    "explanation": "This is a genuine Google security alert. It comes from accounts.google.com, contains no embedded links, and matches your location. If the sign-in was yours, no action needed."
-  },
-  {
-    "id": "email-uni-001",
-    "type": "email",
-    "difficulty": 2,
-    "category": "email",
-    "sender": "DMU Registry",
-    "senderEmail": "registry@dmu.ac.uk",
-    "timestamp": "09:30",
-    "subject": "Enrolment confirmation for 2026/27",
-    "body": "Dear Alexandre, your enrolment for the academic year 2026/27 has been confirmed. Please log in to MyDMU to review your module selections and timetable.",
-    "displayLink": null,
-    "cues": [
-      "Sent from the official DMU domain",
-      "Addressed by your full name",
-      "No payment or credentials requested",
-      "Directs you to MyDMU \u2014 not a third-party link"
-    ],
-    "correctAction": "PROCEED",
-    "explanation": "This is a legitimate university enrolment confirmation. It comes from dmu.ac.uk, is personalised, and directs you to the official student portal. No action required beyond reviewing your timetable."
-  },
-  {
-    "id": "email-phish-student-001",
-    "type": "email",
-    "difficulty": 3,
-    "category": "email",
-    "sender": "Student Finance England",
-    "senderEmail": "support@studentfinance-gov.co.uk",
-    "timestamp": "10:22",
-    "subject": "Action required: verify your bank details",
-    "body": "Your student loan payment for the upcoming term cannot be processed. To avoid a delay in your payment, please verify your bank account details within 48 hours.",
-    "displayLink": "studentfinance-gov.co.uk/verify",
-    "cues": [
-      "Official Student Finance England emails come from studentfinance.co.uk or slc.co.uk \u2014 not studentfinance-gov.co.uk",
-      "48-hour deadline creates panic",
-      "Student Finance never asks you to verify bank details via email link",
-      "Update bank details only through the official portal at gov.uk/student-finance"
-    ],
-    "correctAction": "REPORT",
-    "explanation": "This is a phishing email targeting students. The domain studentfinance-gov.co.uk is not affiliated with Student Finance England. All genuine communications come from slc.co.uk or studentfinance.co.uk. Update bank details only at gov.uk/student-finance."
-  },
-  {
-    "id": "email-insurance-001",
-    "type": "email",
-    "difficulty": 2,
-    "category": "email",
-    "sender": "Admiral Insurance",
-    "senderEmail": "renewals@admiral-renewal-notice.com",
-    "timestamp": "14:55",
-    "subject": "Your car insurance is due for renewal",
-    "body": "Your Admiral policy expires in 14 days. To avoid being uninsured, renew now at a special discounted rate. Click below to confirm your renewal and update your payment details.",
-    "displayLink": "admiral-renewal-notice.com/renew",
-    "cues": [
-      "Legitimate Admiral emails come from admiral.com \u2014 not admiral-renewal-notice.com",
-      "Urgency around insurance expiry creates pressure",
-      "Requests payment details via a third-party link",
-      "Check renewal directly at admiral.com or via your policy documents"
-    ],
-    "correctAction": "REPORT",
-    "explanation": "This is a phishing email impersonating Admiral Insurance. The domain admiral-renewal-notice.com is not affiliated with Admiral. Always renew insurance directly at the insurer's official website."
-  },
-  {
-    "id": "email-ceo-001",
-    "type": "email",
-    "difficulty": 3,
-    "category": "email",
-    "sender": "Marcus Webb",
-    "senderEmail": "m.webb@companygroup-hq.net",
-    "timestamp": "08:47",
-    "subject": "Confidential wire transfer required",
-    "body": "Hi, I need you to arrange an urgent wire transfer of \u00a315,000 to a new supplier before close of business today. This is time sensitive and must not be discussed with other staff. I will explain more when I return from travel.",
-    "displayLink": null,
-    "cues": [
-      "Requests a large wire transfer urgently",
-      "Instruction to keep it confidential prevents verification",
-      "Sender domain is not the company's official domain",
-      "CEO fraud almost always involves travel as an excuse for not calling"
-    ],
-    "correctAction": "REPORT",
-    "explanation": "This is a CEO fraud attack. No legitimate business transfer request bypasses normal approval processes or asks for secrecy. Always verify large financial requests by calling the person directly on a known number \u2014 never reply to the email."
-  },
-  {
-    "id": "email-dropbox-001",
-    "type": "email",
-    "difficulty": 3,
-    "category": "email",
-    "sender": "Dropbox",
-    "senderEmail": "no-reply@dropbox-share.net",
-    "timestamp": "16:20",
-    "subject": "Someone shared a document with you",
-    "body": "John Smith has shared a confidential document with you via Dropbox. Sign in with your email credentials to view the file.",
-    "displayLink": "dropbox-share.net/view",
-    "cues": [
-      "Legitimate Dropbox emails come from dropbox.com \u2014 not dropbox-share.net",
-      "Requests email credentials on a third-party site",
-      "You may not know the sender",
-      "Real Dropbox share links go through dropbox.com"
-    ],
-    "correctAction": "REPORT",
-    "explanation": "This is a credential harvesting phishing email. The domain dropbox-share.net is not Dropbox. Entering your credentials here would hand your email login to attackers. All genuine Dropbox shares link through dropbox.com."
-  },
-  {
-    "id": "email-refund-001",
-    "type": "email",
-    "difficulty": 2,
-    "category": "email",
-    "sender": "Currys",
-    "senderEmail": "refunds@currys-customer-refund.com",
-    "timestamp": "13:40",
-    "subject": "Your refund of \u00a3189.00 is ready",
-    "body": "We have processed your refund of \u00a3189.00 for your recent return. To receive your refund, please confirm your bank account details using the link below within 5 days.",
-    "displayLink": "currys-customer-refund.com/claim",
-    "cues": [
-      "Currys refunds are processed automatically to the original payment method",
-      "Currys emails come from currys.co.uk \u2014 not currys-customer-refund.com",
-      "Legitimate refunds never require you to enter bank details via email",
-      "5-day deadline creates urgency"
-    ],
-    "correctAction": "REPORT",
-    "explanation": "This is a refund scam. Retailers process refunds automatically to the original payment method \u2014 they never ask you to submit bank details via email. The domain is not affiliated with Currys."
-  },
-  {
-    "id": "email-gov-001",
-    "type": "email",
-    "difficulty": 2,
-    "category": "email",
-    "sender": "DVLA",
-    "senderEmail": "dvla@notifications.service.gov.uk",
-    "timestamp": "10:05",
-    "subject": "Your vehicle tax renewal reminder",
-    "body": "Dear vehicle keeper, your vehicle tax for registration AB21 CDX is due for renewal on 31 May 2026. Renew online at gov.uk/vehicle-tax. You do not need to contact DVLA.",
-    "displayLink": null,
-    "cues": [
-      "Sent from the official gov.uk notifications service",
-      "Directs you to gov.uk \u2014 not a third-party domain",
-      "No payment link in the email",
-      "Includes your actual registration number"
-    ],
-    "correctAction": "PROCEED",
-    "explanation": "This is a legitimate DVLA vehicle tax renewal reminder. It comes from the official government notifications service, includes your real registration number, and directs you to gov.uk. Safe to follow up at gov.uk/vehicle-tax."
-  },
-  {
-    "id": "email-survey-001",
-    "type": "email",
-    "difficulty": 1,
-    "category": "email",
-    "sender": "YouGov",
-    "senderEmail": "surveys@yougov.com",
-    "timestamp": "12:30",
-    "subject": "You have been selected for a survey \u2014 earn 500 points",
-    "body": "Hi Alex, you have been selected to complete a 5-minute survey about your shopping habits. Complete it now to earn 500 YouGov points towards your next cashout.",
-    "displayLink": null,
-    "cues": [
-      "Sent from the official YouGov domain",
-      "You have a YouGov account and opted in to surveys",
-      "Points reward is consistent with how YouGov works",
-      "No sensitive information requested"
-    ],
-    "correctAction": "PROCEED",
-    "explanation": "This is a legitimate YouGov survey invitation. It comes from the official domain and matches how YouGov normally operates. If you have a YouGov account, this is safe to participate in."
-  },
-  {
-    "id": "sms-bank-legit-001",
-    "type": "sms",
-    "difficulty": 1,
-    "category": "sms",
-    "sender": "Lloyds Bank",
-    "number": "Lloyds",
-    "timestamp": "10:02",
-    "body": "Lloyds: Your new debit card has been dispatched and will arrive within 3 working days. If you did not request this, call us on 03456 00 61 61.",
-    "displayLink": null,
-    "cues": [
-      "No link included",
-      "Provides a phone number to call if you did not request this",
-      "Standard card dispatch notification",
-      "Matches expected bank communication"
-    ],
-    "correctAction": "PROCEED",
-    "explanation": "This is a legitimate Lloyds card dispatch notification. It contains no link, provides a genuine customer service number, and requires no action if you requested the card."
-  },
-  {
-    "id": "sms-council-001",
-    "type": "sms",
-    "difficulty": 2,
-    "category": "sms",
-    "sender": "Leicester City",
-    "number": "+44 7700 556677",
-    "timestamp": "09:45",
-    "body": "URGENT: Your council tax account is in arrears of \u00a3340. Failure to pay within 24 hours will result in a court summons. Pay now: council-tax-uk-payment.com",
-    "displayLink": "council-tax-uk-payment.com",
-    "cues": [
-      "Council tax notices always come by post \u2014 never by SMS payment link",
-      "Domain is not a gov.uk address",
-      "Threat of court summons creates panic",
-      "24-hour deadline prevents you thinking clearly"
-    ],
-    "correctAction": "REPORT",
-    "explanation": "This is a smishing scam impersonating your local council. All genuine council tax correspondence comes by post. Payment is made through your council's official website ending in gov.uk, never via a link in a text message."
-  },
-  {
-    "id": "sms-parking-001",
-    "type": "sms",
-    "difficulty": 2,
-    "category": "sms",
-    "sender": "UKPC",
-    "number": "+44 7700 778899",
-    "timestamp": "15:33",
-    "body": "PENALTY CHARGE: You parked in a restricted area on 12/05/2026. Fine: \u00a360. Pay within 14 days to avoid an increase to \u00a3120. Pay: ukpc-penalty-payments.com",
-    "displayLink": "ukpc-penalty-payments.com",
-    "cues": [
-      "Penalty charge notices must be issued in person or by post \u2014 not by SMS",
-      "You can verify any parking charge at the official DVLA keeper database",
-      "The domain is not the official UKPC website (ukparkingcontrol.com)",
-      "Threat of doubling the fine creates pressure to pay without checking"
-    ],
-    "correctAction": "REPORT",
-    "explanation": "Parking charge notices must be issued on the vehicle or sent by post to the registered keeper. They are never delivered by SMS with a payment link. Verify any parking charge directly with the parking company using contact details from their official website."
-  },
-  {
-    "id": "sms-gift-001",
-    "type": "sms",
-    "difficulty": 1,
-    "category": "sms",
-    "sender": "Unknown",
-    "number": "+44 7911 654321",
-    "timestamp": "18:05",
-    "body": "Congratulations! You have been selected to receive a \u00a3500 Amazon gift card. Click to claim before it expires: amazongifts-winner.com",
-    "displayLink": "amazongifts-winner.com",
-    "cues": [
-      "You did not enter any competition",
-      "No legitimate prize requires you to click a link in a text",
-      "amazongifts-winner.com is not an Amazon domain",
-      "Expiry pressure rushes you into clicking"
-    ],
-    "correctAction": "REPORT",
-    "explanation": "This is a prize scam. You cannot win a competition you did not enter. Amazon does not distribute gift cards via SMS links. The domain has no connection to Amazon."
-  },
-  {
-    "id": "sms-delivery-legit-001",
-    "type": "sms",
-    "difficulty": 1,
-    "category": "sms",
-    "sender": "DPD",
-    "number": "DPD",
-    "timestamp": "07:58",
-    "body": "DPD: Your parcel 15-99283746-123 is out for delivery today. Your 1-hour delivery window is 10:32-11:32. Track at dpd.co.uk or reply SAFE to authorise a safe place.",
-    "displayLink": null,
-    "cues": [
-      "Sent from official DPD sender ID",
-      "Contains a real tracking number",
-      "Directs you to dpd.co.uk \u2014 not a third-party link",
-      "Offers a clear action with no payment required"
-    ],
-    "correctAction": "PROCEED",
-    "explanation": "This is a legitimate DPD delivery notification. It contains a real tracking number, directs you to dpd.co.uk, and requires no payment. Safe to follow up at dpd.co.uk if you want to track your parcel."
-  },
-  {
-    "id": "sms-o2-001",
-    "type": "sms",
-    "difficulty": 2,
-    "category": "sms",
-    "sender": "O2",
-    "number": "O2",
-    "timestamp": "11:15",
-    "body": "O2: We were unable to process your latest bill payment. To avoid service suspension, update your payment details now: o2-billing-update.com",
-    "displayLink": "o2-billing-update.com",
-    "cues": [
-      "Legitimate O2 billing issues are managed through My O2 app or o2.co.uk",
-      "o2-billing-update.com is not an O2 domain",
-      "Threat of service suspension creates urgency",
-      "SMS sender IDs can be spoofed to display O2"
-    ],
-    "correctAction": "REPORT",
-    "explanation": "This is a smishing scam impersonating O2. All genuine O2 billing issues are managed through the My O2 app or o2.co.uk. Never update payment details via a link in a text message."
-  },
-  {
-    "id": "sms-election-001",
-    "type": "sms",
-    "difficulty": 2,
-    "category": "sms",
-    "sender": "Electoral Commission",
-    "number": "+44 7700 123987",
-    "timestamp": "13:50",
-    "body": "You are not registered to vote. Register now or you may face a \u00a380 fine: electoralregister-uk.com",
-    "displayLink": "electoralregister-uk.com",
-    "cues": [
-      "Voter registration is free and done at gov.uk/register-to-vote \u2014 never via SMS",
-      "The Electoral Commission does not send registration reminders by text",
-      "Threat of a fine creates panic",
-      "The domain is not gov.uk"
-    ],
-    "correctAction": "REPORT",
-    "explanation": "This is a smishing scam. Voter registration in the UK is handled exclusively at gov.uk/register-to-vote. The Electoral Commission does not contact people by SMS and does not issue fines for not registering."
-  },
-  {
-    "id": "sms-nhs-appt-001",
-    "type": "sms",
-    "difficulty": 3,
-    "category": "sms",
-    "sender": "NHS",
-    "number": "NHS",
-    "timestamp": "08:30",
-    "body": "NHS: Due to high demand, your GP appointment has been moved. Confirm your new slot and pay a \u00a34.50 admin fee to secure it: nhs-appointments-uk.com",
-    "displayLink": "nhs-appointments-uk.com",
-    "cues": [
-      "NHS GP appointments are always free \u2014 there is never an admin fee",
-      "NHS appointment notifications never include payment links",
-      "nhs-appointments-uk.com is not an NHS domain (nhs.uk)",
-      "SMS sender IDs can be spoofed to display NHS"
-    ],
-    "correctAction": "REPORT",
-    "explanation": "This is a sophisticated smishing scam. GP appointments on the NHS are always completely free. The NHS never charges admin fees for rescheduling. Contact your GP surgery directly using the number from nhs.uk to check your appointment."
-  },
-  {
-    "id": "sms-crypto-001",
-    "type": "sms",
-    "difficulty": 2,
-    "category": "sms",
-    "sender": "Coinbase",
-    "number": "+1 650 453 0000",
-    "timestamp": "02:14",
-    "body": "Coinbase Alert: Withdrawal of 0.42 BTC detected from your account. If this was not you, cancel immediately: coinbase-secure-cancel.com",
-    "displayLink": "coinbase-secure-cancel.com",
-    "cues": [
-      "Coinbase alerts come through the app and email \u2014 not international SMS",
-      "coinbase-secure-cancel.com is not a Coinbase domain",
-      "Sent at 2am to create panic before you think clearly",
-      "Threat of losing cryptocurrency triggers emotional response"
-    ],
-    "correctAction": "REPORT",
-    "explanation": "This is a smishing scam impersonating Coinbase. All genuine Coinbase security alerts appear in the app and are sent from coinbase.com email addresses. If concerned, log in directly through the Coinbase app \u2014 never through a link in a text."
-  },
-  {
-    "id": "sms-tv-licence-001",
-    "type": "sms",
-    "difficulty": 2,
-    "category": "sms",
-    "sender": "TV Licensing",
-    "number": "+44 7700 445566",
-    "timestamp": "14:20",
-    "body": "TV Licensing: Your licence expired on 30 April. Watch live TV legally and avoid a \u00a31,000 fine. Renew at tv-licence-renew.com",
-    "displayLink": "tv-licence-renew.com",
-    "cues": [
-      "Official TV Licensing renewal is at tvlicensing.co.uk \u2014 not tv-licence-renew.com",
-      "TV Licensing primarily contacts by post and email \u2014 not SMS payment links",
-      "Threat of a \u00a31,000 fine creates panic",
-      "The domain is not tvlicensing.co.uk"
-    ],
-    "correctAction": "REPORT",
-    "explanation": "This is a smishing scam impersonating TV Licensing. Renewals are handled at tvlicensing.co.uk only. TV Licensing does not send SMS messages with payment links."
-  },
-  {
-    "id": "vishing-bank-legit-001",
-    "type": "vishing",
-    "difficulty": 2,
-    "category": "vishing",
-    "sender": "NatWest",
-    "number": "0800 161 5154",
-    "timestamp": "11:30",
-    "transcript": [
-      {
-        "role": "caller",
-        "text": "Hello, this is NatWest calling. I'm just ringing to let you know we've noticed an unusual transaction on your account for \u00a349.99 at an online retailer."
-      },
-      {
-        "role": "caller",
-        "text": "We wanted to check if you recognise this before we approve it. I can read you the last four digits of your card if you'd like to verify which card it relates to."
-      },
-      {
-        "role": "caller",
-        "text": "You don't need to give me any personal information \u2014 I just need a yes or no to whether you recognise this transaction."
-      }
-    ],
-    "displayLink": null,
-    "cues": [
-      "Does not ask for your PIN, password, or full card number",
-      "Offers to verify information to you rather than asking you to verify to them",
-      "Only requires a yes or no answer",
-      "You can hang up and call the number on the back of your card to confirm"
-    ],
-    "correctAction": "PROCEED",
-    "explanation": "This call displays the hallmarks of a legitimate bank fraud check. The caller does not ask for sensitive information and offers to verify details to you. However you can always hang up and call the number on the back of your card to confirm before responding."
-  },
-  {
-    "id": "vishing-amazon-001",
-    "type": "vishing",
-    "difficulty": 1,
-    "category": "vishing",
-    "sender": "Amazon",
-    "number": "+1 888 280 4331",
-    "timestamp": "15:00",
-    "transcript": [
-      {
-        "role": "caller",
-        "text": "Hello, this is Amazon customer service. We have detected a suspicious order of \u00a3899 for an iPhone placed on your account from a new device."
-      },
-      {
-        "role": "caller",
-        "text": "To cancel this order immediately, I need to verify your identity. Please provide your Amazon password and the OTP we are about to send to your phone."
-      },
-      {
-        "role": "caller",
-        "text": "If you do not verify in the next five minutes, the order will be dispatched and we cannot guarantee a refund."
-      }
-    ],
-    "displayLink": null,
-    "cues": [
-      "Amazon never calls customers unprompted about suspicious orders",
-      "Amazon never asks for your password over the phone",
-      "Requesting the OTP would let the attacker access your account",
-      "5-minute deadline prevents you from thinking or checking the app"
-    ],
-    "correctAction": "REPORT",
-    "explanation": "This is a vishing scam impersonating Amazon. Amazon does not call customers about suspicious orders \u2014 you would receive an email. Amazon never asks for your password or OTP. Check your orders directly in the Amazon app."
   },
   {
     "id": "vishing-pension-001",
@@ -1194,70 +616,6 @@
     "explanation": "Royal Mail does not call customers to take payment for redelivery. All redelivery arrangements are free and handled through royalmail.com or the Royal Mail app. Hang up and arrange redelivery directly through official channels."
   },
   {
-    "id": "vishing-council-001",
-    "type": "vishing",
-    "difficulty": 2,
-    "category": "vishing",
-    "sender": "Leicester City Council",
-    "number": "0116 454 1000",
-    "timestamp": "14:00",
-    "transcript": [
-      {
-        "role": "caller",
-        "text": "Good afternoon. I am calling from Leicester City Council regarding your council tax account. We show an overpayment of \u00a3210 on your account from last year."
-      },
-      {
-        "role": "caller",
-        "text": "To process your refund, I will need to verify your bank sort code and account number so we can transfer the funds directly."
-      },
-      {
-        "role": "caller",
-        "text": "This will take around 3 to 5 working days once confirmed."
-      }
-    ],
-    "displayLink": null,
-    "cues": [
-      "Councils refund overpayments by cheque or by crediting your account automatically",
-      "Councils do not call to request bank details for refunds",
-      "You can verify by calling the council back on the number from their official website",
-      "Caller knew your name and council area \u2014 this does not make them legitimate"
-    ],
-    "correctAction": "REPORT",
-    "explanation": "This is a vishing scam targeting council tax payers. Councils refund overpayments automatically or by cheque \u2014 they do not call to collect bank details. Hang up and contact your council directly using the number from their official website."
-  },
-  {
-    "id": "vishing-utility-001",
-    "type": "vishing",
-    "difficulty": 2,
-    "category": "vishing",
-    "sender": "British Gas",
-    "number": "0800 048 0202",
-    "timestamp": "16:30",
-    "transcript": [
-      {
-        "role": "caller",
-        "text": "Hello, I am calling from British Gas. We have identified that you are paying significantly more than necessary for your energy and I can offer you an exclusive loyalty discount today only."
-      },
-      {
-        "role": "caller",
-        "text": "To apply the discount, I will need to verify your account by taking your bank details and direct debit information over the phone."
-      },
-      {
-        "role": "caller",
-        "text": "This offer expires at midnight tonight so I would encourage you to take advantage now."
-      }
-    ],
-    "displayLink": null,
-    "cues": [
-      "Unsolicited discount offers requiring bank details are almost always scams",
-      "Legitimate energy companies do not call with midnight-expiry discounts",
-      "Real British Gas account changes are made through your online account or by you calling them",
-      "Midnight expiry prevents you from researching or consulting anyone"
-    ],
-    "correctAction": "REPORT",
-    "explanation": "This is an energy scam call. Legitimate energy companies do not call unsolicited to offer discounts that require your bank details and expire at midnight. Hang up and contact British Gas directly if you want to discuss your tariff."
-  },
-  {
     "id": "vishing-grandparent-001",
     "type": "vishing",
     "difficulty": 3,
@@ -1290,34 +648,6 @@
     "explanation": "This is a grandparent scam targeting elderly people. The caller impersonates a grandchild in trouble to extract money. Always hang up and call the family member directly on their known number before taking any action. Never send money via Western Union based on an unsolicited call."
   },
   {
-    "id": "vishing-survey-001",
-    "type": "vishing",
-    "difficulty": 1,
-    "category": "vishing",
-    "sender": "Market Research UK",
-    "number": "+44 7700 889900",
-    "timestamp": "17:45",
-    "transcript": [
-      {
-        "role": "caller",
-        "text": "Hello, I am calling from Market Research UK. We are conducting a brief 2-minute survey about shopping habits and would like to offer you a \u00a350 voucher as a thank you for your time."
-      },
-      {
-        "role": "caller",
-        "text": "To send you the voucher, I will just need your full name, home address, date of birth, and email address."
-      }
-    ],
-    "displayLink": null,
-    "cues": [
-      "Unsolicited survey with a reward requires your personal details",
-      "Date of birth combined with name and address is enough for identity theft",
-      "Legitimate market research does not cold-call offering large vouchers",
-      "You can decline and verify the company exists before sharing any details"
-    ],
-    "correctAction": "REPORT",
-    "explanation": "This call requests enough personal information for identity theft. Legitimate market research firms do not cold-call offering large vouchers for 2-minute surveys. Never provide your date of birth, full name, and address to an unsolicited caller."
-  },
-  {
     "id": "vishing-warrant-001",
     "type": "vishing",
     "difficulty": 3,
@@ -1348,5 +678,38 @@
     ],
     "correctAction": "REPORT",
     "explanation": "This is a sophisticated impersonation scam using the National Crime Agency name. No law enforcement agency ever asks you to withdraw cash or transfer money as part of an investigation. This is always a scam. Hang up immediately and call Action Fraud on 0300 123 2040."
+  },
+  {
+    "id": "vishing-it-001",
+    "type": "vishing",
+    "difficulty": 3,
+    "category": "vishing",
+    "sender": "IT Support",
+    "number": "Internal: 2847",
+    "timestamp": "10:45",
+    "transcript": [
+      {
+        "role": "caller",
+        "text": "Hi, this is Dave from the IT support desk. We've had a report that your account credentials may have been compromised in a recent data breach."
+      },
+      {
+        "role": "caller",
+        "text": "I just need to verify your identity before I can lock down your account. Can you confirm your current username and password for me?"
+      },
+      {
+        "role": "caller",
+        "text": "This will only take a moment and I can make sure your account is secured before any data is accessed."
+      }
+    ],
+    "displayLink": null,
+    "cues": [
+      "IT support never asks for your password \u2014 ever",
+      "Internal extension numbers can be spoofed",
+      "The caller contacted you \u2014 you cannot verify who they are",
+      "The right action is to hang up and call IT support back on the official number",
+      "A real IT team can reset your account without knowing your current password"
+    ],
+    "correctAction": "REPORT",
+    "explanation": "This is a vishing attack impersonating internal IT support. No legitimate IT team ever needs your password \u2014 they have tools to reset or secure accounts without it. Hang up and call your IT helpdesk back using the official number from your company's intranet or directory."
   }
 ]
