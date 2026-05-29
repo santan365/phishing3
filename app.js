@@ -37,6 +37,7 @@ let responseTimes     = [];   // Response time in ms for each answer this sessio
 const HISTORY_KEY        = 'phishing_history_v1'; // Per-scenario accuracy across all sessions
 const SESSION_KEY        = 'phishing_last_v1';    // Most recent session score and date
 const SESSION_HISTORY_KEY = 'phishing_sessions_v1'; // Array of last 10 sessions for trend chart
+const PROFILE_KEY        = 'phishing_profile_v1'; // User name and email for personalisation
 
 // ============================================================
 // LOCALSTORAGE FUNCTIONS
@@ -96,6 +97,25 @@ function saveLastSession() {
 function loadLastSession() {
   try { return JSON.parse(localStorage.getItem(SESSION_KEY)); }
   catch(_){ return null; }
+}
+
+// ── Profile helpers ──────────────────────────────────────────────────────────
+// Save the user's name and email to localStorage
+function saveProfile(name, email) {
+  try { localStorage.setItem(PROFILE_KEY, JSON.stringify({ name, email })); } catch(_){}
+}
+// Load the user's profile — returns null if not set yet
+function loadProfile() {
+  try { return JSON.parse(localStorage.getItem(PROFILE_KEY)); } catch(_){ return null; }
+}
+// Replace placeholder tokens in scenario text with the user's real name/email
+// Scenarios use {{name}} and {{email}} as tokens
+function personalise(text) {
+  const p = loadProfile();
+  if (!p) return text;
+  return text
+    .replace(/\{\{name\}\}/g, p.name)
+    .replace(/\{\{email\}\}/g, p.email);
 }
 
 // Return scenarios where the user's historical accuracy is below 60%
@@ -184,7 +204,70 @@ async function init() {
     </section>`;
     return;
   }
-  viewHome(); // Fetch succeeded — show the home screen
+  // If user has no profile yet, show the profile setup screen first
+  // Otherwise go straight to the home screen
+  if (!loadProfile()) {
+    viewProfile();
+  } else {
+    viewHome();
+  }
+}
+
+// ============================================================
+// VIEW: PROFILE SETUP SCREEN
+// Shown on first visit only — stores name and email in localStorage
+// Name and email are used to personalise scenario text
+// Neither value is sent to any server — stays in the browser only
+// ============================================================
+function viewProfile() {
+  app.innerHTML = `
+    <section class="card profile-card" aria-labelledby="profile-title">
+      <h2 id="profile-title">Before you begin</h2>
+      <p class="home-subtitle">Enter a name and email address to make the training scenarios more realistic. Neither needs to be real and this information stays on your device only.</p>
+
+      <div class="profile-form">
+        <div class="profile-field">
+          <label for="profileName" class="profile-label">Name</label>
+          <input id="profileName" class="profile-input" type="text" placeholder="e.g. Alex" autocomplete="off" />
+        </div>
+        <div class="profile-field">
+          <label for="profileEmail" class="profile-label">Email</label>
+          <input id="profileEmail" class="profile-input" type="email" placeholder="e.g. alex@example.com" autocomplete="off" />
+          <p class="profile-hint">This does not need to be your real email. It is only used to make the phishing scenarios more realistic.</p>
+        </div>
+      </div>
+
+      <div class="btn-row home-btns">
+        <button id="profileBtn" class="btn btn-primary">Get Started</button>
+      </div>
+      <p class="muted">Your details are stored on your device only and never shared.</p>
+    </section>`;
+
+  const btn = document.getElementById('profileBtn');
+  onActivate(btn, () => {
+    const name  = document.getElementById('profileName').value.trim();
+    const email = document.getElementById('profileEmail').value.trim();
+    let valid = true;
+
+    // Both name and email are required
+    if (!name) {
+      document.getElementById('profileName').style.borderColor = '#e74c3c';
+      document.getElementById('profileName').placeholder = 'Please enter a name';
+      valid = false;
+    }
+    if (!email) {
+      document.getElementById('profileEmail').style.borderColor = '#e74c3c';
+      document.getElementById('profileEmail').placeholder = 'Please enter an email';
+      valid = false;
+    }
+    if (!valid) return;
+
+    // Save profile and go to home screen
+    saveProfile(name, email);
+    viewHome();
+  });
+
+  document.getElementById('profileName').focus();
 }
 
 // ============================================================
@@ -208,7 +291,7 @@ function viewHome() {
   app.innerHTML = `
     <section class="card home-card" aria-labelledby="home-title">
       <h2 id="home-title">Phishing Awareness Trainer</h2>
-      <p class="home-subtitle">Can you tell a scam from the real thing? Work through realistic scenarios and sharpen your instincts.</p>
+      <p class="home-subtitle">${loadProfile() ? `Welcome back, ${loadProfile().name}. ` : ''}Can you tell a scam from the real thing? Work through realistic scenarios and sharpen your instincts.</p>
 
       ${last ? `<p class="last-session">Last session: <strong>${last.score}/${last.attempts}</strong> correct &middot; ${last.date}</p>` : ''}
 
@@ -255,6 +338,9 @@ function viewScenario() {
   if (idx >= scenarios.length) { viewSummary(); return; }
 
   const s = scenarios[idx]; // Current scenario object
+  // Apply personalisation tokens — replace {{name}} and {{email}} in scenario text
+  const body    = personalise(s.body || '');
+  const subject = personalise(s.subject || '');
   let msg = '';              // HTML for the message frame — built differently per type
 
   // EMAIL — rendered with a sender avatar, address, subject line, and body
@@ -269,9 +355,9 @@ function viewScenario() {
           </div>
           <span class="email-time muted">${s.timestamp}</span>
         </div>
-        <div class="email-subject"><strong>${s.subject || ''}</strong></div>
+        <div class="email-subject"><strong>${subject}</strong></div>
         <div class="email-body">
-          <p>${s.body}</p>
+          <p>${body}</p>
           ${s.displayLink ? `<p class="inert-link">[Link] ${s.displayLink}</p>` : ''}
         </div>
       </div>`;
@@ -289,13 +375,12 @@ function viewScenario() {
           <span class="muted">${s.timestamp}</span>
         </div>
         <div class="sms-bubble">
-          <p>${s.body}</p>
+          <p>${body}</p>
           ${s.displayLink ? `<span class="inert-link">[Link] ${s.displayLink}</span>` : ''}
         </div>
       </div>`;
 
   // VISHING — rendered as a call transcript with alternating caller/user speech bubbles
-  // Each line in s.transcript has a role ('caller' or 'you') and text
   } else if (s.type === 'vishing') {
     msg = `
       <div class="message-frame vishing-frame">
@@ -311,7 +396,7 @@ function viewScenario() {
           ${s.transcript.map(l => `
             <div class="call-line call-line--${l.role}">
               <span class="call-role">${l.role === 'caller' ? 'Caller' : 'You'}</span>
-              <p>${l.text}</p>
+              <p>${personalise(l.text)}</p>
             </div>`).join('')}
         </div>
         ${s.displayLink ? `<p class="inert-link" style="margin:12px 16px 16px">[Link] ${s.displayLink}</p>` : ''}
