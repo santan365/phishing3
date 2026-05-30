@@ -1,5 +1,5 @@
 // ============================================================
-// CSEC3100 Phishing Awareness Trainer v0.4
+// CSEC3100 Phishing Awareness Trainer v0.5
 // Pure client-side SPA — no backend, no framework
 // Scenarios are fetched from GitHub on load (see SCENARIOS_URL)
 // Session data is stored in localStorage (see HISTORY_KEY / SESSION_KEY)
@@ -25,10 +25,14 @@ let attempts          = 0;    // Total answers submitted this session (includes 
 let streak            = 0;    // Current consecutive correct answers
 let bestStreak        = 0;    // Highest streak reached this session
 let activeCategory    = 'all';// Category filter selected on the home screen
+let sessionLength     = 'full'; // 'quick' = QUICK_LENGTH scenarios, 'full' = whole filtered bank
 let reviewMode        = false; // True when user is replaying missed scenarios
 let missedThisSession = [];   // IDs of scenarios the user got wrong this session
 let scenarioStartTime = 0;    // Timestamp (ms) when the current scenario was displayed
 let responseTimes     = [];   // Response time in ms for each answer this session
+
+// Number of scenarios in a "Quick" session
+const QUICK_LENGTH = 10;
 
 // ============================================================
 // LOCALSTORAGE KEYS
@@ -273,7 +277,7 @@ function viewProfile() {
 // ============================================================
 // VIEW: HOME SCREEN
 // Shows the welcome message, last session badge, weak areas,
-// category filter buttons, and the Start Training button
+// category filter buttons, session length toggle, and Start button
 // ============================================================
 function viewHome() {
   const last = loadLastSession();  // Previous session data for the badge
@@ -286,6 +290,11 @@ function viewHome() {
     { id: 'sms',     label: 'SMS',     count: scenarioBank.filter(s => s.category === 'sms').length },
     { id: 'vishing', label: 'Vishing', count: scenarioBank.filter(s => s.category === 'vishing').length },
   ];
+
+  // How many scenarios the current selection would actually load
+  // (used to label the Full button and cap the Quick count sensibly)
+  const availableCount = filterScenarios(activeCategory).length;
+  const quickCount = Math.min(QUICK_LENGTH, availableCount);
 
   // Inject the home screen HTML into the app container
   app.innerHTML = `
@@ -309,6 +318,17 @@ function viewHome() {
           </button>`).join('')}
       </div>
 
+      <div class="cat-filter" role="group" aria-label="Session length">
+        <button class="cat-btn len-btn ${sessionLength === 'quick' ? 'cat-btn--active' : ''}"
+                data-len="quick" aria-pressed="${sessionLength === 'quick'}">
+          Quick <span class="cat-count">${quickCount}</span>
+        </button>
+        <button class="cat-btn len-btn ${sessionLength === 'full' ? 'cat-btn--active' : ''}"
+                data-len="full" aria-pressed="${sessionLength === 'full'}">
+          Full <span class="cat-count">${availableCount}</span>
+        </button>
+      </div>
+
       <div class="btn-row home-btns">
         <button id="startBtn" class="btn btn-primary">Start Training</button>
         <button id="statsBtn" class="btn">My Stats</button>
@@ -317,9 +337,15 @@ function viewHome() {
     </section>`;
 
   // Attach click handlers to each category filter button
-  // When clicked, update activeCategory and re-render the home screen
+  // The data-cat guard means the session-length buttons (which share the
+  // .cat-btn class for styling) are ignored by this handler
   document.querySelectorAll('.cat-btn').forEach(btn => {
-    onActivate(btn, () => { activeCategory = btn.dataset.cat; viewHome(); });
+    onActivate(btn, () => { if (btn.dataset.cat) { activeCategory = btn.dataset.cat; viewHome(); } });
+  });
+
+  // Attach click handlers to the session-length buttons
+  document.querySelectorAll('[data-len]').forEach(btn => {
+    onActivate(btn, () => { sessionLength = btn.dataset.len; viewHome(); });
   });
 
   const sb = document.getElementById('startBtn');
@@ -596,11 +622,15 @@ function getMotivationalMessage(score, total) {
 // ============================================================
 
 // Start a new session — resets all state variables and loads filtered scenarios
+// If Quick mode is selected, the session is capped at QUICK_LENGTH scenarios
 function start() {
   reviewMode = false;
   missedThisSession = [];
   responseTimes = []; // Reset response time tracking for new session
   scenarios = sortByDifficulty(filterScenarios(activeCategory));
+  // Quick mode: cap the session at the first QUICK_LENGTH scenarios
+  // .slice handles the case where fewer than QUICK_LENGTH exist (returns what's there)
+  if (sessionLength === 'quick') scenarios = scenarios.slice(0, QUICK_LENGTH);
   idx = 0; score = 0; attempts = 0; streak = 0; bestStreak = 0;
   viewScenario();
 }
