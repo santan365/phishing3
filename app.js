@@ -1,5 +1,5 @@
 // ============================================================
-// CSEC3100 Phishing Awareness Trainer v0.5
+// CSEC3100 Phishing Awareness Trainer v0.6
 // Pure client-side SPA — no backend, no framework
 // Scenarios are fetched from GitHub on load (see SCENARIOS_URL)
 // Session data is stored in localStorage (see HISTORY_KEY / SESSION_KEY)
@@ -622,15 +622,37 @@ function getMotivationalMessage(score, total) {
 // ============================================================
 
 // Start a new session — resets all state variables and loads filtered scenarios
-// If Quick mode is selected, the session is capped at QUICK_LENGTH scenarios
+// Full mode: whole filtered bank, ordered Easy -> Hard.
+// Quick mode: a spread sampled across ALL difficulty bands (not just the easy
+// ones), then ordered Easy -> Hard so the session still ramps up in difficulty.
 function start() {
   reviewMode = false;
   missedThisSession = [];
   responseTimes = []; // Reset response time tracking for new session
-  scenarios = sortByDifficulty(filterScenarios(activeCategory));
-  // Quick mode: cap the session at the first QUICK_LENGTH scenarios
-  // .slice handles the case where fewer than QUICK_LENGTH exist (returns what's there)
-  if (sessionLength === 'quick') scenarios = scenarios.slice(0, QUICK_LENGTH);
+
+  const pool = filterScenarios(activeCategory);
+
+  if (sessionLength === 'quick') {
+    // Shuffle within each difficulty band so the sample varies each run
+    const byBand = [1, 2, 3].map(d =>
+      pool.filter(s => s.difficulty === d).sort(() => Math.random() - 0.5)
+    );
+    const want = QUICK_LENGTH;
+    const picked = [];
+    // Round-robin across the three bands (one Easy, one Medium, one Hard, repeat)
+    // until we have QUICK_LENGTH scenarios or run out — guarantees a mix
+    let i = 0;
+    while (picked.length < want && byBand.some(b => b.length)) {
+      const band = byBand[i % 3];
+      if (band.length) picked.push(band.shift());
+      i++;
+    }
+    // Re-order the chosen scenarios Easy -> Hard for a sensible progression
+    scenarios = picked.sort((a, b) => a.difficulty - b.difficulty);
+  } else {
+    scenarios = sortByDifficulty(pool);
+  }
+
   idx = 0; score = 0; attempts = 0; streak = 0; bestStreak = 0;
   viewScenario();
 }
